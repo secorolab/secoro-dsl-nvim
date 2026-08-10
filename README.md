@@ -67,27 +67,6 @@ the interpreter, which packages import, and which parsers are compiled.
 A language whose package fails to import loses its diagnostics but keeps hover,
 completion and symbols.
 
-## Development
-
-```sh
-./check.sh          # regenerate every parser, parse every model, compile the queries, test the server
-./build-parsers.sh  # install every <language>.so into ~/.local/share/nvim/site/parser
-./build.sh          # (re)build the server venv
-```
-
-`check.sh` parses `test/coverage.<language>` -- constructs the workspace models
-do not use -- plus every model in the sibling checkouts, and fails on an ERROR
-node. Pre-rewrite files are deliberately outside the corpus:
-`bdd_collab_bhv_cpp/models/collab_pickplace.fsm` and the `motion-spec`
-generations tree, both of which the current toolchain rejects too.
-
-Where a package registers several languages whose top-level constructs are
-disjoint -- `.scene`/`.scenex`/`.ktree`, `.bdd`/`.bddx` -- they share one grammar
-and one filetype. Which metamodel checks a buffer still follows its extension.
-
-Adding a language is an entry in `lua/secoro-dsl-nvim/languages.lua`, a grammar
-under `grammars/`, its queries, and a module under `server/languages/`.
-
 ## License
 
 MIT
