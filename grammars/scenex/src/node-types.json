@@ -1,0 +1,2804 @@
+[
+  {
+    "type": "actuation",
+    "named": true,
+    "fields": {
+      "command_interface": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "interface",
+            "named": true
+          }
+        ]
+      },
+      "gear_ratio": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      },
+      "state_interface": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "interface",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "agent",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "agent_set",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "agent",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "agn_set_member",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "angle_unit",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "angular_acceleration_unit",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "angular_velocity_unit",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "axis",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "body_mapping",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "entity": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "camera_sensor",
+    "named": true,
+    "fields": {
+      "camera_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "camera_type",
+            "named": true
+          }
+        ]
+      },
+      "fov": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      },
+      "fov_unit": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "angle_unit",
+            "named": true
+          }
+        ]
+      },
+      "frame": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "rate_unit": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "rate_unit",
+            "named": true
+          }
+        ]
+      },
+      "resolution": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "vector",
+            "named": true
+          }
+        ]
+      },
+      "update_rate": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "camera_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "direction_cosine_orientation",
+    "named": true,
+    "fields": {
+      "x_axis": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "vector",
+            "named": true
+          }
+        ]
+      },
+      "y_axis": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "vector",
+            "named": true
+          }
+        ]
+      },
+      "z_axis": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "vector",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "distribution",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "normal_distribution",
+            "named": true
+          },
+          {
+            "type": "uniform_distribution",
+            "named": true
+          },
+          {
+            "type": "uniform_rotation",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "distribution_ref",
+    "named": true,
+    "fields": {
+      "distribution": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "element_model",
+    "named": true,
+    "fields": {
+      "kind": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "model_kind",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "py_module_attr",
+            "named": true
+          },
+          {
+            "type": "ros_path",
+            "named": true
+          },
+          {
+            "type": "sys_path",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "body_mapping",
+          "named": true
+        },
+        {
+          "type": "tree_mapping",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "euler_axes",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "euler_orientation",
+    "named": true,
+    "fields": {
+      "angles": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "vector",
+            "named": true
+          }
+        ]
+      },
+      "axes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "euler_axes",
+            "named": true
+          }
+        ]
+      },
+      "unit": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "angle_unit",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "fixed_joint",
+    "named": true,
+    "fields": {
+      "child": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "parent": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "force_torque_measure",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "force_torque_sensor",
+    "named": true,
+    "fields": {
+      "frame": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "observes": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "force_torque_measure",
+            "named": true
+          }
+        ]
+      },
+      "rate_unit": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "rate_unit",
+            "named": true
+          }
+        ]
+      },
+      "update_rate": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "fqn",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "frame",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "pose_spec",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "frame_axis",
+    "named": true,
+    "fields": {
+      "axis": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "axis",
+            "named": true
+          }
+        ]
+      },
+      "frame": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "import",
+    "named": true,
+    "fields": {
+      "uri": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "imu_measure",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "imu_sensor",
+    "named": true,
+    "fields": {
+      "frame": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "observes": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "imu_measure",
+            "named": true
+          }
+        ]
+      },
+      "rate_unit": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "rate_unit",
+            "named": true
+          }
+        ]
+      },
+      "update_rate": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "inertia",
+    "named": true,
+    "fields": {
+      "frame": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "inertia_matrix": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "matrix",
+            "named": true
+          }
+        ]
+      },
+      "inertia_unit": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "inertia_unit",
+            "named": true
+          }
+        ]
+      },
+      "mass": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      },
+      "mass_unit": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "mass_unit",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "interface",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "joint_limits",
+    "named": true,
+    "fields": {
+      "acceleration": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vector",
+            "named": true
+          }
+        ]
+      },
+      "acceleration_unit": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "angular_acceleration_unit",
+            "named": true
+          }
+        ]
+      },
+      "effort": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vector",
+            "named": true
+          }
+        ]
+      },
+      "effort_unit": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "effort_unit",
+            "named": true
+          }
+        ]
+      },
+      "position": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vector",
+            "named": true
+          }
+        ]
+      },
+      "position_unit": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "angle_unit",
+            "named": true
+          }
+        ]
+      },
+      "velocity": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "vector",
+            "named": true
+          }
+        ]
+      },
+      "velocity_unit": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "angular_velocity_unit",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "joint_mimic",
+    "named": true,
+    "fields": {
+      "joint": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "multiplier": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      },
+      "offset": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "joint_offset",
+    "named": true,
+    "fields": {
+      "length_unit": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "length_unit",
+            "named": true
+          }
+        ]
+      },
+      "xyz": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "vector",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "joints_spec",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "fixed_joint",
+          "named": true
+        },
+        {
+          "type": "parallel_joints",
+          "named": true
+        },
+        {
+          "type": "revolute_joint",
+          "named": true
+        },
+        {
+          "type": "serial_joints",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "kgraph",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "joints_spec",
+          "named": true
+        },
+        {
+          "type": "rigid_body",
+          "named": true
+        },
+        {
+          "type": "tree_member",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ktree_instance",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      },
+      "template": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ktree_model",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "joints_spec",
+          "named": true
+        },
+        {
+          "type": "rigid_body",
+          "named": true
+        },
+        {
+          "type": "tree_member",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ktree_template",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "joints_spec",
+          "named": true
+        },
+        {
+          "type": "rigid_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "length_unit",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "mass_unit",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "matrix",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "vector",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "model_kind",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "modelled_agent",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "camera_sensor",
+          "named": true
+        },
+        {
+          "type": "element_model",
+          "named": true
+        },
+        {
+          "type": "force_torque_sensor",
+          "named": true
+        },
+        {
+          "type": "imu_sensor",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "modelled_agent_set",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "modelled_agent",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "modelled_object",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "element_model",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "modelled_object_set",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "element_model",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "namespace_decl",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "uri": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "normal_distribution",
+    "named": true,
+    "fields": {
+      "covariance": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "matrix",
+            "named": true
+          }
+        ]
+      },
+      "dimension": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      },
+      "mean": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "vector",
+            "named": true
+          }
+        ]
+      },
+      "std_dev": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "obj_set_member",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "object",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "object_member",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "object_set",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "object",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "orientation_coord",
+    "named": true,
+    "fields": {
+      "coord_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "orientation_coord_type",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "direction_cosine_orientation",
+            "named": true
+          },
+          {
+            "type": "distribution_ref",
+            "named": true
+          },
+          {
+            "type": "euler_orientation",
+            "named": true
+          },
+          {
+            "type": "quaternion_orientation",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "orientation_coord_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "parallel_joints",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "polarity",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "pose_spec",
+    "named": true,
+    "fields": {
+      "length_unit": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "length_unit",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "orientation": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "orientation_coord",
+            "named": true
+          }
+        ]
+      },
+      "position": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "distribution_ref",
+            "named": true
+          },
+          {
+            "type": "vector",
+            "named": true
+          }
+        ]
+      },
+      "wrt": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "py_module_attr",
+    "named": true,
+    "fields": {
+      "attr": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "module": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "quaternion_orientation",
+    "named": true,
+    "fields": {
+      "xyzw": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "vector",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ref",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "revolute_joint",
+    "named": true,
+    "fields": {
+      "child": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "frame_axis",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "parent": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "frame_axis",
+            "named": true
+          }
+        ]
+      },
+      "polarity": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "polarity",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "actuation",
+          "named": true
+        },
+        {
+          "type": "joint_limits",
+          "named": true
+        },
+        {
+          "type": "joint_mimic",
+          "named": true
+        },
+        {
+          "type": "joint_offset",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rigid_body",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "frame",
+          "named": true
+        },
+        {
+          "type": "inertia",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ros_path",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "pkg": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "scene_instance",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "element_model",
+          "named": true
+        },
+        {
+          "type": "kgraph",
+          "named": true
+        },
+        {
+          "type": "modelled_agent",
+          "named": true
+        },
+        {
+          "type": "modelled_agent_set",
+          "named": true
+        },
+        {
+          "type": "modelled_object",
+          "named": true
+        },
+        {
+          "type": "modelled_object_set",
+          "named": true
+        },
+        {
+          "type": "scene_ref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "scene_model",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "agn_set_member",
+          "named": true
+        },
+        {
+          "type": "obj_set_member",
+          "named": true
+        },
+        {
+          "type": "ws_comp_member",
+          "named": true
+        },
+        {
+          "type": "ws_set_member",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "scene_ref",
+    "named": true,
+    "fields": {
+      "scene": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "serial_joints",
+    "named": true,
+    "fields": {
+      "root": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "tip": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "similar_agent_set",
+    "named": true,
+    "fields": {
+      "base_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "count": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "similar_object_set",
+    "named": true,
+    "fields": {
+      "base_name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "count": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "agent_set",
+          "named": true
+        },
+        {
+          "type": "distribution",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "ktree_instance",
+          "named": true
+        },
+        {
+          "type": "ktree_model",
+          "named": true
+        },
+        {
+          "type": "ktree_template",
+          "named": true
+        },
+        {
+          "type": "namespace_decl",
+          "named": true
+        },
+        {
+          "type": "object_set",
+          "named": true
+        },
+        {
+          "type": "scene_instance",
+          "named": true
+        },
+        {
+          "type": "scene_model",
+          "named": true
+        },
+        {
+          "type": "similar_agent_set",
+          "named": true
+        },
+        {
+          "type": "similar_object_set",
+          "named": true
+        },
+        {
+          "type": "workspace_composition",
+          "named": true
+        },
+        {
+          "type": "workspace_set",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "sys_path",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "tree_mapping",
+    "named": true,
+    "fields": {
+      "entity": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "tree": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "tree_member",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "uniform_distribution",
+    "named": true,
+    "fields": {
+      "dimension": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      },
+      "lower": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "vector",
+            "named": true
+          }
+        ]
+      },
+      "upper": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "vector",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "vector",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "workspace",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "workspace_composition",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      },
+      "workspace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "object_member",
+          "named": true
+        },
+        {
+          "type": "workspace_member",
+          "named": true
+        },
+        {
+          "type": "ws_comp_member",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "workspace_member",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "workspace_set",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "workspace",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ws_comp_member",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ws_set_member",
+    "named": true,
+    "fields": {
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": "NegativePolarity",
+    "named": false
+  },
+  {
+    "type": "PositivePolarity",
+    "named": false
+  },
+  {
+    "type": "acceleration",
+    "named": false
+  },
+  {
+    "type": "actuation",
+    "named": false
+  },
+  {
+    "type": "agent",
+    "named": false
+  },
+  {
+    "type": "agn",
+    "named": false
+  },
+  {
+    "type": "angles",
+    "named": false
+  },
+  {
+    "type": "angular-velocity",
+    "named": false
+  },
+  {
+    "type": "as",
+    "named": false
+  },
+  {
+    "type": "attr",
+    "named": false
+  },
+  {
+    "type": "axes",
+    "named": false
+  },
+  {
+    "type": "base",
+    "named": false
+  },
+  {
+    "type": "body",
+    "named": false
+  },
+  {
+    "type": "camera",
+    "named": false
+  },
+  {
+    "type": "child",
+    "named": false
+  },
+  {
+    "type": "cm",
+    "named": false
+  },
+  {
+    "type": "command-interface",
+    "named": false
+  },
+  {
+    "type": "comment",
+    "named": true,
+    "extra": true
+  },
+  {
+    "type": "comp",
+    "named": false
+  },
+  {
+    "type": "count",
+    "named": false
+  },
+  {
+    "type": "covariance",
+    "named": false
+  },
+  {
+    "type": "current",
+    "named": false
+  },
+  {
+    "type": "deg",
+    "named": false
+  },
+  {
+    "type": "deg/s",
+    "named": false
+  },
+  {
+    "type": "deg/s^2",
+    "named": false
+  },
+  {
+    "type": "depth",
+    "named": false
+  },
+  {
+    "type": "dimension",
+    "named": false
+  },
+  {
+    "type": "direction-cosine",
+    "named": false
+  },
+  {
+    "type": "distrib",
+    "named": false
+  },
+  {
+    "type": "effort",
+    "named": false
+  },
+  {
+    "type": "effort_unit",
+    "named": true
+  },
+  {
+    "type": "euler",
+    "named": false
+  },
+  {
+    "type": "extrinsic",
+    "named": false
+  },
+  {
+    "type": "fixed",
+    "named": false
+  },
+  {
+    "type": "force",
+    "named": false
+  },
+  {
+    "type": "force-torque",
+    "named": false
+  },
+  {
+    "type": "fov",
+    "named": false
+  },
+  {
+    "type": "frame",
+    "named": false
+  },
+  {
+    "type": "g",
+    "named": false
+  },
+  {
+    "type": "gear",
+    "named": false
+  },
+  {
+    "type": "import",
+    "named": false
+  },
+  {
+    "type": "imu",
+    "named": false
+  },
+  {
+    "type": "inertia",
+    "named": false
+  },
+  {
+    "type": "inertia-matrix",
+    "named": false
+  },
+  {
+    "type": "inertia_unit",
+    "named": true
+  },
+  {
+    "type": "inst",
+    "named": false
+  },
+  {
+    "type": "joint",
+    "named": false
+  },
+  {
+    "type": "joints",
+    "named": false
+  },
+  {
+    "type": "kg",
+    "named": false
+  },
+  {
+    "type": "kgraph",
+    "named": false
+  },
+  {
+    "type": "ktree",
+    "named": false
+  },
+  {
+    "type": "limits",
+    "named": false
+  },
+  {
+    "type": "linear-acceleration",
+    "named": false
+  },
+  {
+    "type": "lower",
+    "named": false
+  },
+  {
+    "type": "m",
+    "named": false
+  },
+  {
+    "type": "map",
+    "named": false
+  },
+  {
+    "type": "mass",
+    "named": false
+  },
+  {
+    "type": "mean",
+    "named": false
+  },
+  {
+    "type": "mimic",
+    "named": false
+  },
+  {
+    "type": "mjcf",
+    "named": false
+  },
+  {
+    "type": "mm",
+    "named": false
+  },
+  {
+    "type": "model",
+    "named": false
+  },
+  {
+    "type": "module",
+    "named": false
+  },
+  {
+    "type": "multiplier",
+    "named": false
+  },
+  {
+    "type": "name",
+    "named": false
+  },
+  {
+    "type": "name",
+    "named": true
+  },
+  {
+    "type": "normal",
+    "named": false
+  },
+  {
+    "type": "ns",
+    "named": false
+  },
+  {
+    "type": "number",
+    "named": true
+  },
+  {
+    "type": "obj",
+    "named": false
+  },
+  {
+    "type": "object",
+    "named": false
+  },
+  {
+    "type": "observes",
+    "named": false
+  },
+  {
+    "type": "of",
+    "named": false
+  },
+  {
+    "type": "offset",
+    "named": false
+  },
+  {
+    "type": "orientation",
+    "named": false
+  },
+  {
+    "type": "parallel",
+    "named": false
+  },
+  {
+    "type": "parent",
+    "named": false
+  },
+  {
+    "type": "path",
+    "named": false
+  },
+  {
+    "type": "pkg",
+    "named": false
+  },
+  {
+    "type": "polarity",
+    "named": false
+  },
+  {
+    "type": "pose",
+    "named": false
+  },
+  {
+    "type": "position",
+    "named": false
+  },
+  {
+    "type": "py",
+    "named": false
+  },
+  {
+    "type": "quat",
+    "named": false
+  },
+  {
+    "type": "rad",
+    "named": false
+  },
+  {
+    "type": "rad/s",
+    "named": false
+  },
+  {
+    "type": "rad/s^2",
+    "named": false
+  },
+  {
+    "type": "rate_unit",
+    "named": true
+  },
+  {
+    "type": "ratio",
+    "named": false
+  },
+  {
+    "type": "resolution",
+    "named": false
+  },
+  {
+    "type": "revolute",
+    "named": false
+  },
+  {
+    "type": "rgb",
+    "named": false
+  },
+  {
+    "type": "rgbd",
+    "named": false
+  },
+  {
+    "type": "root",
+    "named": false
+  },
+  {
+    "type": "ros",
+    "named": false
+  },
+  {
+    "type": "sample",
+    "named": false
+  },
+  {
+    "type": "scene",
+    "named": false
+  },
+  {
+    "type": "serial",
+    "named": false
+  },
+  {
+    "type": "set",
+    "named": false
+  },
+  {
+    "type": "similar",
+    "named": false
+  },
+  {
+    "type": "state-interface",
+    "named": false
+  },
+  {
+    "type": "std-dev",
+    "named": false
+  },
+  {
+    "type": "string",
+    "named": true
+  },
+  {
+    "type": "sys",
+    "named": false
+  },
+  {
+    "type": "tip",
+    "named": false
+  },
+  {
+    "type": "to",
+    "named": false
+  },
+  {
+    "type": "torque",
+    "named": false
+  },
+  {
+    "type": "tree",
+    "named": false
+  },
+  {
+    "type": "type",
+    "named": false
+  },
+  {
+    "type": "uniform",
+    "named": false
+  },
+  {
+    "type": "uniform_rotation",
+    "named": true
+  },
+  {
+    "type": "unit",
+    "named": false
+  },
+  {
+    "type": "update-rate",
+    "named": false
+  },
+  {
+    "type": "upper",
+    "named": false
+  },
+  {
+    "type": "urdf",
+    "named": false
+  },
+  {
+    "type": "usd",
+    "named": false
+  },
+  {
+    "type": "velocity",
+    "named": false
+  },
+  {
+    "type": "workspace",
+    "named": false
+  },
+  {
+    "type": "wrt",
+    "named": false
+  },
+  {
+    "type": "ws",
+    "named": false
+  },
+  {
+    "type": "x",
+    "named": false
+  },
+  {
+    "type": "xyz",
+    "named": false
+  },
+  {
+    "type": "xyzw",
+    "named": false
+  },
+  {
+    "type": "xzy",
+    "named": false
+  },
+  {
+    "type": "y",
+    "named": false
+  },
+  {
+    "type": "yxz",
+    "named": false
+  },
+  {
+    "type": "yzx",
+    "named": false
+  },
+  {
+    "type": "z",
+    "named": false
+  },
+  {
+    "type": "zxy",
+    "named": false
+  },
+  {
+    "type": "zyx",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  }
+]

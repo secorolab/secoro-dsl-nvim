@@ -1,0 +1,223 @@
+// Constructs the workspace models do not use, so `check.sh` still parses them.
+// Semantically this is nonsense on purpose: only the grammar is under test.
+import "lab.scene"
+import "kinova_gen3_7dof.ktree"
+
+ns cov = "https://example.org/models/coverage/"
+ns cov_alt = 'https://example.org/models/coverage-alt/'
+
+// -------------------------------------------------------------- scene.tx
+
+obj set (ns=cov) cov_objects {
+    object box,
+    object ball,
+}
+similar obj set (ns=cov) cov_balls {
+    base name: ball
+    count: 4
+}
+ws set (ns=cov) cov_workspaces {
+    workspace table_ws,
+    workspace shelf_ws
+}
+agn set (ns=cov) cov_agents {
+    agent arm,
+    agent base
+}
+similar agn set (ns=cov) cov_arms {
+    base name: arm
+    count: 2
+}
+
+comp (ns=cov) cov_table of ws <cov_workspaces.table_ws> {
+    obj <cov_objects.box>
+    ws <cov_workspaces.shelf_ws>
+    ws comp <cov_table>
+}
+
+scene (ns=cov) cov_scene {
+    obj set <cov_objects>
+    obj set <cov_balls>
+    ws set <cov_workspaces>
+    ws comp <cov_table>
+    agn set <cov_agents>
+    agn set <cov_arms>
+}
+
+// ------------------------------------------------------------- distrib.tx
+
+distrib (ns=cov) cov_uniform {
+    uniform {
+        dimension: 3
+        lower: (-1.0, -2.0, -3.0)
+        upper: (1.0, 2.0, 3.0)
+    }
+}
+distrib (ns=cov) cov_normal_scalar {
+    normal { dimension: 1 mean: 0.0 std-dev: 0.5 }
+}
+distrib (ns=cov) cov_normal_vector {
+    normal {
+        dimension: 3
+        mean: (0.0, 0.0, 0.0)
+        covariance: (
+            (0.01, 0.0, 0.0),
+            (0.0, 0.01, 0.0),
+            (0.0, 0.0, 0.01)
+        )
+    }
+}
+distrib (ns=cov) cov_rot { uniform-rotation }
+
+// --------------------------------------------------------------- ktree.tx
+
+// A template: no namespace, so it is a device rather than any particular one.
+ktree cov_template {
+    body cov_base {
+        frame cov_base_origin { }
+        frame cov_base_com {
+            pose cov_base_com_in_base {
+                wrt: <cov_base.cov_base_origin>
+                xyz: (0, 0, 0.1) mm
+                orientation: quat { xyzw: (0.0, 0.0, 0.0, 1.0) }
+            }
+        }
+        inertia {
+            frame: <cov_base_com>
+            mass: 500.0 g
+            inertia-matrix: (
+                (0.01, 0.0, 0.0),
+                (0.0, 0.01, 0.0),
+                (0.0, 0.0, 0.01)
+            ) kg*m^2
+        }
+    }
+    body cov_link {
+        frame cov_link_origin { }
+        frame cov_link_tip {
+            pose cov_tip_in_link {
+                wrt: <cov_link.cov_link_origin>
+                xyz: sample <cov_uniform> cm
+                orientation: direction-cosine {
+                    x: (1.0, 0.0, 0.0)
+                    y: (0.0, 1.0, 0.0)
+                    z: (0.0, 0.0, 1.0)
+                }
+            }
+        }
+        inertia { frame: <cov_link_origin> }
+    }
+    joints {
+        revolute cov_joint {
+            parent: <cov_base.cov_base_origin>.z
+            child: <cov_link.cov_link_origin>.z
+            actuation {
+                gear ratio: 100.0
+                command-interface: position velocity torque current
+                state-interface: position velocity
+            }
+            offset { xyz: (0.0, 0.0, 0.3) m }
+            limits {
+                position: (-2.41, 2.41) rad
+                velocity: (-1.39, 1.39) rad/s
+                acceleration: (-5.19, 5.19) rad/s^2
+                effort: (-39.0, 39.0) N*m
+            }
+            mimic {
+                joint: <cov_joint>
+                multiplier: -1.0
+                offset: 0.0
+            }
+            polarity: NegativePolarity
+        }
+        parallel { }
+    }
+}
+
+ktree inst (ns=cov) cov_arm1 of <cov_template>
+ktree inst (ns=cov_alt) cov_arm2 of <cov_template>
+
+ktree (ns=cov) cov_assembly {
+    tree <cov_arm1>
+    tree <cov_arm2>
+    joints {
+        fixed cov_mount {
+            parent: <cov_arm1.cov_link.cov_link_tip>
+            child: <cov_arm2.cov_base.cov_base_origin>
+        }
+        serial {
+            root: <cov_arm1.cov_base.cov_base_origin>
+            tip: <cov_arm2.cov_link.cov_link_tip>
+        }
+    }
+}
+
+// -------------------------------------------------------------- scenex.tx
+
+scene inst (ns=cov) cov_inst {
+    scene: <cov_scene>
+
+    kgraph (ns=cov) cov_graph {
+        tree <cov_assembly>
+        body cov_world { frame cov_world_root { } }
+        body cov_table_body {
+            frame cov_table_surface {
+                pose cov_table_pose {
+                    wrt: <cov_world.cov_world_root>
+                    xyz: (1.0, 2.0, 0.75) m
+                    orientation: euler {
+                        axes: zyx extrinsic
+                        angles: (180.0, 0.0, 0.0)
+                        unit: deg
+                    }
+                }
+            }
+            inertia { frame: <cov_table_surface> mass: 10.0 kg }
+        }
+    }
+
+    // A model declared for the instance rather than for one element.
+    model cov_shared as usd { py { module: cov_pkg.assets, attr: shared_usd } }
+
+    obj <cov_objects.box> {
+        model cov_box as mjcf {
+            sys path = '~/.cache/assets/cube.xml'
+            map body <cov_graph.cov_table_body> to "cube"
+        }
+    }
+
+    obj set <cov_balls> {
+        model cov_ball as urdf { ros pkg = "cov_pkg", path = "assets/ball.urdf" }
+    }
+
+    agn <cov_agents.arm> {
+        model cov_arm_model as mjcf {
+            sys path = "assets/arm.xml"
+            map tree <cov_arm1> to "arm"
+            map body <cov_arm1.cov_base>
+        }
+        camera cov_cam {
+            frame: <cov_arm1.cov_base.cov_base_origin>
+            type: rgbd
+            resolution: (640, 480)
+            fov: 60.0 deg
+            update-rate: 30.0 Hz
+        }
+        force-torque cov_ft {
+            frame: <cov_arm1.cov_link.cov_link_tip>
+            observes: force torque
+            update-rate: 100.0 Hz
+        }
+        imu cov_imu {
+            frame: <cov_arm1.cov_base.cov_base_origin>
+            observes: angular-velocity linear-acceleration orientation
+            update-rate: 200.0 Hz
+        }
+    }
+
+    agn set <cov_arms> {
+        agn <cov_agents.arm> {
+            model cov_set_model as mjcf { sys path = "assets/arm.xml" }
+        }
+    }
+}

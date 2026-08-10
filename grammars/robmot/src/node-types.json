@@ -1,0 +1,4855 @@
+[
+  {
+    "type": "acceleration_twist_value",
+    "named": true,
+    "fields": {
+      "angular": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "coordinates",
+            "named": true
+          }
+        ]
+      },
+      "angular_unit": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "unit",
+            "named": true
+          }
+        ]
+      },
+      "linear": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "coordinates",
+            "named": true
+          }
+        ]
+      },
+      "linear_unit": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "unit",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "action_clients",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ros_action_decl",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "action_servers",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ros_action_server_decl",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "admittance_spec",
+    "named": true,
+    "fields": {
+      "damping": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      },
+      "force": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "distance_view",
+            "named": true
+          },
+          {
+            "type": "elapsed_view",
+            "named": true
+          },
+          {
+            "type": "moving_view",
+            "named": true
+          },
+          {
+            "type": "progress_view",
+            "named": true
+          },
+          {
+            "type": "quantity_view",
+            "named": true
+          }
+        ]
+      },
+      "mass": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      },
+      "max_velocity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      },
+      "stiffness": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      },
+      "unit": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "unit",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "arc_spec",
+    "named": true,
+    "fields": {
+      "amplitude": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "plane_normal": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "start": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "axis",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "bilateral_constraint",
+    "named": true,
+    "fields": {
+      "lower": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "upper": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "bracket_ref",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "scalar_value",
+          "named": true
+        },
+        {
+          "type": "vector_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "circle_spec",
+    "named": true,
+    "fields": {
+      "center": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "plane_normal": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "start": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "command_forwarding_solver",
+    "named": true,
+    "fields": {
+      "agent": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "constraint_alias",
+    "named": true,
+    "fields": {
+      "reference": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "constraint_group",
+    "named": true,
+    "fields": {
+      "logic": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "section_logic",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constraint_alias",
+          "named": true
+        },
+        {
+          "type": "constraint_group",
+          "named": true
+        },
+        {
+          "type": "constraint_specification",
+          "named": true
+        },
+        {
+          "type": "goal_status_constraint",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "constraint_handler",
+    "named": true,
+    "fields": {
+      "motion": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      },
+      "state": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "command_forwarding_solver",
+          "named": true
+        },
+        {
+          "type": "context_decl_reference",
+          "named": true
+        },
+        {
+          "type": "controller_alias",
+          "named": true
+        },
+        {
+          "type": "controller_entry",
+          "named": true
+        },
+        {
+          "type": "mobile_platform_solver",
+          "named": true
+        },
+        {
+          "type": "monitor_entry",
+          "named": true
+        },
+        {
+          "type": "serial_chain_solver",
+          "named": true
+        },
+        {
+          "type": "solver_alias",
+          "named": true
+        },
+        {
+          "type": "spec_context",
+          "named": true
+        },
+        {
+          "type": "world_context",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "constraint_specification",
+    "named": true,
+    "fields": {
+      "disabled": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "@disable",
+            "named": false
+          }
+        ]
+      },
+      "expr": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "bilateral_constraint",
+            "named": true
+          },
+          {
+            "type": "equality_constraint",
+            "named": true
+          },
+          {
+            "type": "greater_than_constraint",
+            "named": true
+          },
+          {
+            "type": "less_than_constraint",
+            "named": true
+          },
+          {
+            "type": "outside_constraint",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "tolerance": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "view": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "distance_view",
+            "named": true
+          },
+          {
+            "type": "elapsed_view",
+            "named": true
+          },
+          {
+            "type": "moving_view",
+            "named": true
+          },
+          {
+            "type": "progress_view",
+            "named": true
+          },
+          {
+            "type": "quantity_view",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "context_decl_reference",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "context_path",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "arc_spec",
+            "named": true
+          },
+          {
+            "type": "circle_spec",
+            "named": true
+          },
+          {
+            "type": "figure8_spec",
+            "named": true
+          },
+          {
+            "type": "helix_spec",
+            "named": true
+          },
+          {
+            "type": "lerp_spec",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "context_quantity",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "geometry_quantity_type",
+            "named": true
+          },
+          {
+            "type": "scalar_quantity_type",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "acceleration_twist_value",
+            "named": true
+          },
+          {
+            "type": "admittance_spec",
+            "named": true
+          },
+          {
+            "type": "pose_value",
+            "named": true
+          },
+          {
+            "type": "profile_spec",
+            "named": true
+          },
+          {
+            "type": "reference_value",
+            "named": true
+          },
+          {
+            "type": "scalar_value",
+            "named": true
+          },
+          {
+            "type": "snapshot_value",
+            "named": true
+          },
+          {
+            "type": "vector_value",
+            "named": true
+          },
+          {
+            "type": "velocity_twist_value",
+            "named": true
+          },
+          {
+            "type": "wrench_value",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "geometric_props",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "context_scope",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "context_spec",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "post_context",
+          "named": true
+        },
+        {
+          "type": "pre_context",
+          "named": true
+        },
+        {
+          "type": "spec_context",
+          "named": true
+        },
+        {
+          "type": "world_context",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "controller_alias",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "reference": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "controller_entry",
+    "named": true,
+    "fields": {
+      "apply_at": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "command_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "geometry_quantity_type",
+            "named": true
+          },
+          {
+            "type": "scalar_quantity_type",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "solver": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "controller_type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "controller_params",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "controller_params",
+    "named": true,
+    "fields": {
+      "constraint": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "integral_saturation": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "saturation_spec",
+            "named": true
+          }
+        ]
+      },
+      "measured_derivative": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "distance_view",
+            "named": true
+          },
+          {
+            "type": "elapsed_view",
+            "named": true
+          },
+          {
+            "type": "moving_view",
+            "named": true
+          },
+          {
+            "type": "progress_view",
+            "named": true
+          },
+          {
+            "type": "quantity_view",
+            "named": true
+          }
+        ]
+      },
+      "output_saturation": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "saturation_spec",
+            "named": true
+          }
+        ]
+      },
+      "profile": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "gain_param",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "controller_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "coordinates",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bracket_ref",
+          "named": true
+        },
+        {
+          "type": "inline_ref",
+          "named": true
+        },
+        {
+          "type": "measure",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "qualified_ref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "detect_decl",
+    "named": true,
+    "fields": {
+      "action": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "target": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "device_binding",
+    "named": true,
+    "fields": {
+      "device": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "device_kind",
+            "named": true
+          }
+        ]
+      },
+      "target": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "device_kind",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "direction_cosine",
+    "named": true,
+    "fields": {
+      "x": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "coordinates",
+            "named": true
+          }
+        ]
+      },
+      "y": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "coordinates",
+            "named": true
+          }
+        ]
+      },
+      "z": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "coordinates",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "distance_view",
+    "named": true,
+    "fields": {
+      "from": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "to": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "equality_constraint",
+    "named": true,
+    "fields": {
+      "reference": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "euler_angles",
+    "named": true,
+    "fields": {
+      "angles": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "coordinates",
+            "named": true
+          }
+        ]
+      },
+      "axes": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "euler_axes",
+            "named": true
+          }
+        ]
+      },
+      "extrinsic": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "extrinsic",
+            "named": false
+          }
+        ]
+      },
+      "unit": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "unit",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "euler_axes",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "exec_context",
+    "named": true,
+    "fields": {
+      "config": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      },
+      "platform": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "real_world_platform",
+            "named": true
+          },
+          {
+            "type": "simulation_platform",
+            "named": true
+          }
+        ]
+      },
+      "scene": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "timestep": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "measure",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "figure8_form",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "figure8_spec",
+    "named": true,
+    "fields": {
+      "anchor": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "form": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "figure8_form",
+            "named": true
+          }
+        ]
+      },
+      "plane_normal": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "radius": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "flag_action",
+    "named": true,
+    "fields": {
+      "flag": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "fqn",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "gain_name",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "gain_param",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "gain_name",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "geo_prop_key",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "geo_prop_pair",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "geo_prop_key",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "geometric_props",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "geo_prop_pair",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "geometry_quantity_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "goal_status",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "goal_status_constraint",
+    "named": true,
+    "fields": {
+      "act": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "status": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "goal_status",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "gravity_value",
+    "named": true,
+    "fields": {
+      "unit": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "unit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "bracket_ref",
+          "named": true
+        },
+        {
+          "type": "coordinates",
+          "named": true
+        },
+        {
+          "type": "inline_ref",
+          "named": true
+        },
+        {
+          "type": "measure",
+          "named": true
+        },
+        {
+          "type": "qualified_ref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "greater_than_constraint",
+    "named": true,
+    "fields": {
+      "threshold": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "guarded_motion",
+    "named": true,
+    "fields": {
+      "description": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "context_decl_reference",
+          "named": true
+        },
+        {
+          "type": "detect_decl",
+          "named": true
+        },
+        {
+          "type": "post_context",
+          "named": true
+        },
+        {
+          "type": "pre_context",
+          "named": true
+        },
+        {
+          "type": "spec_context",
+          "named": true
+        },
+        {
+          "type": "until_section",
+          "named": true
+        },
+        {
+          "type": "when_section",
+          "named": true
+        },
+        {
+          "type": "while_section",
+          "named": true
+        },
+        {
+          "type": "world_context",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "helix_spec",
+    "named": true,
+    "fields": {
+      "axis": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "center": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "pitch": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "revolutions": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "start": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "hold_action",
+    "named": true,
+    "fields": {
+      "fallback": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "import",
+    "named": true,
+    "fields": {
+      "uri": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "inline_ref",
+    "named": true,
+    "fields": {
+      "scope": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "context_scope",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "context_quantity",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "lerp_spec",
+    "named": true,
+    "fields": {
+      "goal": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "start": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "less_than_constraint",
+    "named": true,
+    "fields": {
+      "threshold": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "measure",
+    "named": true,
+    "fields": {
+      "unit": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "unit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mobile_platform_algorithm",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "mobile_platform_solver",
+    "named": true,
+    "fields": {
+      "agent": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "algorithm": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "mobile_platform_algorithm",
+            "named": true
+          }
+        ]
+      },
+      "configuration": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "quantity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "monitor_entry",
+    "named": true,
+    "fields": {
+      "constraint": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "monitor_state_block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "monitor_state",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "monitor_state_block",
+    "named": true,
+    "fields": {
+      "state": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "monitor_state",
+            "named": true
+          }
+        ]
+      },
+      "sustain": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "measure",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "flag_action",
+          "named": true
+        },
+        {
+          "type": "hold_action",
+          "named": true
+        },
+        {
+          "type": "publish_action",
+          "named": true
+        },
+        {
+          "type": "trigger_action",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "moving_view",
+    "named": true,
+    "fields": {
+      "moved": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "speed": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "namespace_decl",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "uri": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "outside_constraint",
+    "named": true,
+    "fields": {
+      "lower": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "upper": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "pose_value",
+    "named": true,
+    "fields": {
+      "frame": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "orientation": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "by",
+            "named": false
+          },
+          {
+            "type": "direction_cosine",
+            "named": true
+          },
+          {
+            "type": "euler_angles",
+            "named": true
+          },
+          {
+            "type": "in",
+            "named": false
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          },
+          {
+            "type": "quaternion",
+            "named": true
+          },
+          {
+            "type": "ref",
+            "named": true
+          },
+          {
+            "type": "rotated",
+            "named": false
+          }
+        ]
+      },
+      "position": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "coordinates",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          },
+          {
+            "type": "unit",
+            "named": true
+          }
+        ]
+      },
+      "unit": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "unit",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "post_context",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "context_path",
+          "named": true
+        },
+        {
+          "type": "context_quantity",
+          "named": true
+        },
+        {
+          "type": "quantity_alias",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pre_context",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "context_path",
+          "named": true
+        },
+        {
+          "type": "context_quantity",
+          "named": true
+        },
+        {
+          "type": "quantity_alias",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "profile_shape",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "profile_spec",
+    "named": true,
+    "fields": {
+      "max_acceleration": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "max_jerk": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "max_velocity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "measured_velocity": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "distance_view",
+            "named": true
+          },
+          {
+            "type": "elapsed_view",
+            "named": true
+          },
+          {
+            "type": "moving_view",
+            "named": true
+          },
+          {
+            "type": "progress_view",
+            "named": true
+          },
+          {
+            "type": "quantity_view",
+            "named": true
+          }
+        ]
+      },
+      "shape": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "profile_shape",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "progress_view",
+    "named": true,
+    "fields": {
+      "moved": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "publish_action",
+    "named": true,
+    "fields": {
+      "topic": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ros_field_assign",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "publishers",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ros_topic_decl",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "qualified_ref",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ref",
+          "named": true
+        },
+        {
+          "type": "selector_tail",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "quantity_alias",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "reference": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "quantity_view",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "quantity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "selector_tail",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "quaternion",
+    "named": true,
+    "fields": {
+      "xyzw": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "coordinates",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "real_world_platform",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "device_binding",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ref",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "reference_value",
+    "named": true,
+    "fields": {
+      "offset": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ros",
+    "named": true,
+    "fields": {
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "action_clients",
+          "named": true
+        },
+        {
+          "type": "action_servers",
+          "named": true
+        },
+        {
+          "type": "publishers",
+          "named": true
+        },
+        {
+          "type": "subscribers",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ros_action_decl",
+    "named": true,
+    "fields": {
+      "channel": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "pose_container": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "pose_field": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ros_action_server_decl",
+    "named": true,
+    "fields": {
+      "channel": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "goal_event": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "on_end": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "ros_field_assign",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          },
+          {
+            "type": "}",
+            "named": false
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ros_field_assign",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ros_subscription_decl",
+    "named": true,
+    "fields": {
+      "channel": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "pose_container": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "pose_field": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "target": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ros_topic_decl",
+    "named": true,
+    "fields": {
+      "channel": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "saturation_spec",
+    "named": true,
+    "fields": {
+      "lower": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "max": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "upper": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "scalar_quantity_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "scalar_value",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "measure",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "section_logic",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "selector_tail",
+    "named": true,
+    "fields": {
+      "axis": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "axis",
+            "named": true
+          }
+        ]
+      },
+      "subspace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "subspace",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "serial_chain_algorithm",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "serial_chain_solver",
+    "named": true,
+    "fields": {
+      "agent": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "algorithm": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "serial_chain_algorithm",
+            "named": true
+          }
+        ]
+      },
+      "gravity": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "gravity_value",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "solver_limits",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "simulation_platform",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "snapshot_value",
+    "named": true,
+    "fields": {
+      "offset": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "distance_view",
+            "named": true
+          },
+          {
+            "type": "elapsed_view",
+            "named": true
+          },
+          {
+            "type": "moving_view",
+            "named": true
+          },
+          {
+            "type": "progress_view",
+            "named": true
+          },
+          {
+            "type": "quantity_view",
+            "named": true
+          }
+        ]
+      },
+      "trigger": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "solver_alias",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "reference": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "solver_limits",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "torque_limit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constraint_handler",
+          "named": true
+        },
+        {
+          "type": "context_spec",
+          "named": true
+        },
+        {
+          "type": "exec_context",
+          "named": true
+        },
+        {
+          "type": "guarded_motion",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "namespace_decl",
+          "named": true
+        },
+        {
+          "type": "ros",
+          "named": true
+        },
+        {
+          "type": "tolerances",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "spec_context",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "context_path",
+          "named": true
+        },
+        {
+          "type": "context_quantity",
+          "named": true
+        },
+        {
+          "type": "quantity_alias",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subscribers",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ros_subscription_decl",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "subspace",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "tolerance_default",
+    "named": true,
+    "fields": {
+      "band": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "bracket_ref",
+            "named": true
+          },
+          {
+            "type": "inline_ref",
+            "named": true
+          },
+          {
+            "type": "measure",
+            "named": true
+          },
+          {
+            "type": "qualified_ref",
+            "named": true
+          }
+        ]
+      },
+      "kind": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "geometry_quantity_type",
+            "named": true
+          },
+          {
+            "type": "scalar_quantity_type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "tolerances",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "tolerance_default",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "torque_limit",
+    "named": true,
+    "fields": {
+      "saturation": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "saturation_spec",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "trigger_action",
+    "named": true,
+    "fields": {
+      "event": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "until_section",
+    "named": true,
+    "fields": {
+      "logic": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "section_logic",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constraint_alias",
+          "named": true
+        },
+        {
+          "type": "constraint_group",
+          "named": true
+        },
+        {
+          "type": "constraint_specification",
+          "named": true
+        },
+        {
+          "type": "goal_status_constraint",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "vector_value",
+    "named": true,
+    "fields": {
+      "unit": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "unit",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "coordinates",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "velocity_twist_value",
+    "named": true,
+    "fields": {
+      "angular": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "coordinates",
+            "named": true
+          }
+        ]
+      },
+      "angular_unit": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "unit",
+            "named": true
+          }
+        ]
+      },
+      "linear": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "coordinates",
+            "named": true
+          }
+        ]
+      },
+      "linear_unit": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "unit",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "when_section",
+    "named": true,
+    "fields": {
+      "logic": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "section_logic",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constraint_alias",
+          "named": true
+        },
+        {
+          "type": "constraint_specification",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "while_section",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constraint_alias",
+          "named": true
+        },
+        {
+          "type": "constraint_specification",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "world_context",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "quantity_alias",
+          "named": true
+        },
+        {
+          "type": "world_quantity",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "world_quantity",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "world_quantity_type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "geometric_props",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "world_quantity_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "wrench_value",
+    "named": true,
+    "fields": {
+      "force": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "coordinates",
+            "named": true
+          }
+        ]
+      },
+      "force_unit": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "unit",
+            "named": true
+          }
+        ]
+      },
+      "torque": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "coordinates",
+            "named": true
+          }
+        ]
+      },
+      "torque_unit": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "unit",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": "@disable",
+    "named": false
+  },
+  {
+    "type": "Kd",
+    "named": false
+  },
+  {
+    "type": "Ki",
+    "named": false
+  },
+  {
+    "type": "KinovaGen3",
+    "named": false
+  },
+  {
+    "type": "KinovaGen3-2F85",
+    "named": false
+  },
+  {
+    "type": "Kp",
+    "named": false
+  },
+  {
+    "type": "Robotiq2F85",
+    "named": false
+  },
+  {
+    "type": "RobotiqFT300s",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "aborted",
+    "named": false
+  },
+  {
+    "type": "acceleration-twist",
+    "named": false
+  },
+  {
+    "type": "achd",
+    "named": false
+  },
+  {
+    "type": "action",
+    "named": false
+  },
+  {
+    "type": "action-clients",
+    "named": false
+  },
+  {
+    "type": "action-servers",
+    "named": false
+  },
+  {
+    "type": "admittance",
+    "named": false
+  },
+  {
+    "type": "agent",
+    "named": false
+  },
+  {
+    "type": "algorithm",
+    "named": false
+  },
+  {
+    "type": "all",
+    "named": false
+  },
+  {
+    "type": "along",
+    "named": false
+  },
+  {
+    "type": "amplitude",
+    "named": false
+  },
+  {
+    "type": "anchor",
+    "named": false
+  },
+  {
+    "type": "and",
+    "named": false
+  },
+  {
+    "type": "angacc",
+    "named": false
+  },
+  {
+    "type": "angle",
+    "named": false
+  },
+  {
+    "type": "angles",
+    "named": false
+  },
+  {
+    "type": "angular-acceleration",
+    "named": false
+  },
+  {
+    "type": "angular-distance",
+    "named": false
+  },
+  {
+    "type": "angular-velocity",
+    "named": false
+  },
+  {
+    "type": "angvel",
+    "named": false
+  },
+  {
+    "type": "any",
+    "named": false
+  },
+  {
+    "type": "apply",
+    "named": false
+  },
+  {
+    "type": "arc",
+    "named": false
+  },
+  {
+    "type": "as",
+    "named": false
+  },
+  {
+    "type": "as-seen-by",
+    "named": false
+  },
+  {
+    "type": "at",
+    "named": false
+  },
+  {
+    "type": "away",
+    "named": false
+  },
+  {
+    "type": "axes",
+    "named": false
+  },
+  {
+    "type": "axis",
+    "named": false
+  },
+  {
+    "type": "bernoulli",
+    "named": false
+  },
+  {
+    "type": "between",
+    "named": false
+  },
+  {
+    "type": "by",
+    "named": false
+  },
+  {
+    "type": "canceled",
+    "named": false
+  },
+  {
+    "type": "center",
+    "named": false
+  },
+  {
+    "type": "circle",
+    "named": false
+  },
+  {
+    "type": "command-forwarding",
+    "named": false
+  },
+  {
+    "type": "comment",
+    "named": true,
+    "extra": true
+  },
+  {
+    "type": "config",
+    "named": false
+  },
+  {
+    "type": "configuration",
+    "named": false
+  },
+  {
+    "type": "constraint",
+    "named": false
+  },
+  {
+    "type": "constraint-handler",
+    "named": false
+  },
+  {
+    "type": "context",
+    "named": false
+  },
+  {
+    "type": "controllers",
+    "named": false
+  },
+  {
+    "type": "damping",
+    "named": false
+  },
+  {
+    "type": "decay",
+    "named": false
+  },
+  {
+    "type": "description",
+    "named": false
+  },
+  {
+    "type": "detect",
+    "named": false
+  },
+  {
+    "type": "dimensionless",
+    "named": false
+  },
+  {
+    "type": "direction",
+    "named": false
+  },
+  {
+    "type": "direction-cosine",
+    "named": false
+  },
+  {
+    "type": "distance",
+    "named": false
+  },
+  {
+    "type": "duration",
+    "named": false
+  },
+  {
+    "type": "elapsed_view",
+    "named": true
+  },
+  {
+    "type": "end",
+    "named": false
+  },
+  {
+    "type": "equal",
+    "named": false
+  },
+  {
+    "type": "euler",
+    "named": false
+  },
+  {
+    "type": "event",
+    "named": false
+  },
+  {
+    "type": "exec-context",
+    "named": false
+  },
+  {
+    "type": "extrinsic",
+    "named": false
+  },
+  {
+    "type": "feed-forward",
+    "named": false
+  },
+  {
+    "type": "figure8",
+    "named": false
+  },
+  {
+    "type": "flag",
+    "named": false
+  },
+  {
+    "type": "for",
+    "named": false
+  },
+  {
+    "type": "force",
+    "named": false
+  },
+  {
+    "type": "force-composition",
+    "named": false
+  },
+  {
+    "type": "force-distribution",
+    "named": false
+  },
+  {
+    "type": "form",
+    "named": false
+  },
+  {
+    "type": "free-vector",
+    "named": false
+  },
+  {
+    "type": "from",
+    "named": false
+  },
+  {
+    "type": "ft-sensor",
+    "named": false
+  },
+  {
+    "type": "gerono",
+    "named": false
+  },
+  {
+    "type": "goal",
+    "named": false
+  },
+  {
+    "type": "gravity",
+    "named": false
+  },
+  {
+    "type": "greater",
+    "named": false
+  },
+  {
+    "type": "guarded-motion",
+    "named": false
+  },
+  {
+    "type": "handles",
+    "named": false
+  },
+  {
+    "type": "helix",
+    "named": false
+  },
+  {
+    "type": "hold",
+    "named": false
+  },
+  {
+    "type": "impedance",
+    "named": false
+  },
+  {
+    "type": "import",
+    "named": false
+  },
+  {
+    "type": "in",
+    "named": false
+  },
+  {
+    "type": "integral-saturation",
+    "named": false
+  },
+  {
+    "type": "is",
+    "named": false
+  },
+  {
+    "type": "joint",
+    "named": false
+  },
+  {
+    "type": "joint-position",
+    "named": false
+  },
+  {
+    "type": "keeping",
+    "named": false
+  },
+  {
+    "type": "larger",
+    "named": false
+  },
+  {
+    "type": "lerp",
+    "named": false
+  },
+  {
+    "type": "less",
+    "named": false
+  },
+  {
+    "type": "limits",
+    "named": false
+  },
+  {
+    "type": "linacc",
+    "named": false
+  },
+  {
+    "type": "linear-acceleration",
+    "named": false
+  },
+  {
+    "type": "linear-distance",
+    "named": false
+  },
+  {
+    "type": "linear-jerk",
+    "named": false
+  },
+  {
+    "type": "linear-velocity",
+    "named": false
+  },
+  {
+    "type": "linvel",
+    "named": false
+  },
+  {
+    "type": "lower",
+    "named": false
+  },
+  {
+    "type": "mass",
+    "named": false
+  },
+  {
+    "type": "max",
+    "named": false
+  },
+  {
+    "type": "max-acceleration",
+    "named": false
+  },
+  {
+    "type": "max-jerk",
+    "named": false
+  },
+  {
+    "type": "max-velocity",
+    "named": false
+  },
+  {
+    "type": "measured-derivative",
+    "named": false
+  },
+  {
+    "type": "measured-velocity",
+    "named": false
+  },
+  {
+    "type": "message",
+    "named": false
+  },
+  {
+    "type": "mobile-platform",
+    "named": false
+  },
+  {
+    "type": "monitor",
+    "named": false
+  },
+  {
+    "type": "monitors",
+    "named": false
+  },
+  {
+    "type": "more",
+    "named": false
+  },
+  {
+    "type": "moving",
+    "named": false
+  },
+  {
+    "type": "name",
+    "named": false
+  },
+  {
+    "type": "name",
+    "named": true
+  },
+  {
+    "type": "ns",
+    "named": false
+  },
+  {
+    "type": "number",
+    "named": true
+  },
+  {
+    "type": "observes",
+    "named": false
+  },
+  {
+    "type": "of",
+    "named": false
+  },
+  {
+    "type": "on",
+    "named": false
+  },
+  {
+    "type": "on-end",
+    "named": false
+  },
+  {
+    "type": "on-goal",
+    "named": false
+  },
+  {
+    "type": "orientation",
+    "named": false
+  },
+  {
+    "type": "output-saturation",
+    "named": false
+  },
+  {
+    "type": "outside",
+    "named": false
+  },
+  {
+    "type": "path",
+    "named": false
+  },
+  {
+    "type": "path-parameter",
+    "named": false
+  },
+  {
+    "type": "pid",
+    "named": false
+  },
+  {
+    "type": "pitch",
+    "named": false
+  },
+  {
+    "type": "plane-normal",
+    "named": false
+  },
+  {
+    "type": "platform",
+    "named": false
+  },
+  {
+    "type": "pose",
+    "named": false
+  },
+  {
+    "type": "position",
+    "named": false
+  },
+  {
+    "type": "post",
+    "named": false
+  },
+  {
+    "type": "pre",
+    "named": false
+  },
+  {
+    "type": "produce",
+    "named": false
+  },
+  {
+    "type": "profile",
+    "named": false
+  },
+  {
+    "type": "progress",
+    "named": false
+  },
+  {
+    "type": "publish",
+    "named": false
+  },
+  {
+    "type": "publishers",
+    "named": false
+  },
+  {
+    "type": "quantity",
+    "named": false
+  },
+  {
+    "type": "quat",
+    "named": false
+  },
+  {
+    "type": "radius",
+    "named": false
+  },
+  {
+    "type": "real-world",
+    "named": false
+  },
+  {
+    "type": "realized",
+    "named": false
+  },
+  {
+    "type": "ref-point",
+    "named": false
+  },
+  {
+    "type": "revolutions",
+    "named": false
+  },
+  {
+    "type": "rne",
+    "named": false
+  },
+  {
+    "type": "ros",
+    "named": false
+  },
+  {
+    "type": "rotated",
+    "named": false
+  },
+  {
+    "type": "runs-in",
+    "named": false
+  },
+  {
+    "type": "runs-scene",
+    "named": false
+  },
+  {
+    "type": "s-curve",
+    "named": false
+  },
+  {
+    "type": "satisfied",
+    "named": false
+  },
+  {
+    "type": "saturation",
+    "named": false
+  },
+  {
+    "type": "serial-chain",
+    "named": false
+  },
+  {
+    "type": "shape",
+    "named": false
+  },
+  {
+    "type": "simulation",
+    "named": false
+  },
+  {
+    "type": "smaller",
+    "named": false
+  },
+  {
+    "type": "snapshot",
+    "named": false
+  },
+  {
+    "type": "solvers",
+    "named": false
+  },
+  {
+    "type": "spec",
+    "named": false
+  },
+  {
+    "type": "start",
+    "named": false
+  },
+  {
+    "type": "status",
+    "named": false
+  },
+  {
+    "type": "stiffness",
+    "named": false
+  },
+  {
+    "type": "string",
+    "named": true
+  },
+  {
+    "type": "subscribers",
+    "named": false
+  },
+  {
+    "type": "succeeded",
+    "named": false
+  },
+  {
+    "type": "than",
+    "named": false
+  },
+  {
+    "type": "timestep",
+    "named": false
+  },
+  {
+    "type": "to",
+    "named": false
+  },
+  {
+    "type": "tolerances",
+    "named": false
+  },
+  {
+    "type": "topic",
+    "named": false
+  },
+  {
+    "type": "torque",
+    "named": false
+  },
+  {
+    "type": "trapezoidal",
+    "named": false
+  },
+  {
+    "type": "trigger",
+    "named": false
+  },
+  {
+    "type": "type",
+    "named": false
+  },
+  {
+    "type": "unit",
+    "named": true
+  },
+  {
+    "type": "until",
+    "named": false
+  },
+  {
+    "type": "up",
+    "named": false
+  },
+  {
+    "type": "upper",
+    "named": false
+  },
+  {
+    "type": "using",
+    "named": false
+  },
+  {
+    "type": "velocity-composition",
+    "named": false
+  },
+  {
+    "type": "velocity-distribution",
+    "named": false
+  },
+  {
+    "type": "velocity-profile",
+    "named": false
+  },
+  {
+    "type": "velocity-twist",
+    "named": false
+  },
+  {
+    "type": "via",
+    "named": false
+  },
+  {
+    "type": "violated",
+    "named": false
+  },
+  {
+    "type": "when",
+    "named": false
+  },
+  {
+    "type": "while",
+    "named": false
+  },
+  {
+    "type": "within",
+    "named": false
+  },
+  {
+    "type": "world",
+    "named": false
+  },
+  {
+    "type": "wrench",
+    "named": false
+  },
+  {
+    "type": "wrt",
+    "named": false
+  },
+  {
+    "type": "x",
+    "named": false
+  },
+  {
+    "type": "xyz",
+    "named": false
+  },
+  {
+    "type": "xyzw",
+    "named": false
+  },
+  {
+    "type": "xzy",
+    "named": false
+  },
+  {
+    "type": "y",
+    "named": false
+  },
+  {
+    "type": "yxz",
+    "named": false
+  },
+  {
+    "type": "yzx",
+    "named": false
+  },
+  {
+    "type": "z",
+    "named": false
+  },
+  {
+    "type": "zxy",
+    "named": false
+  },
+  {
+    "type": "zyx",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
+  }
+]

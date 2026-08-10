@@ -1,0 +1,51 @@
+// Constructs the workspace models do not use, so `check.sh` still parses them.
+import "other.fsm"
+
+ns cov = "https://example.org/models/coverage/"
+ns cov_alt = 'https://example.org/models/coverage-alt/'
+
+evt loop (ns=cov) cov_events {
+    evt E_STEP,
+    evt e-hyphen-named,
+    evt E_DONE,
+}
+
+evt loop (ns=cov_alt) cov_other_events {
+    evt E_EXTERNAL
+}
+
+fsm (ns=cov) cov_fsm {
+    description: "Every construct the FSM grammar has."
+
+    states {
+        S_START,
+        S-HYPHEN-NAMED,
+        S_EXIT,
+    }
+
+    evt loop: <cov_events>
+
+    start: <S_START>
+    end:   <S_EXIT>
+
+    transitions {
+        T_START_HYPHEN { from: <S_START>,        to: <S-HYPHEN-NAMED> },
+        T_HYPHEN_EXIT  { from: <S-HYPHEN-NAMED>, to: <S_EXIT>, },
+        T_SELF         { from: <S_EXIT>,         to: <S_EXIT> },
+    }
+
+    reactions {
+        // No `fires`, and a trailing comma inside the block.
+        R_STEP { when: <cov_events.E_STEP>, do: <T_START_HYPHEN>, },
+        R_DONE {
+            when: <cov_events.E_DONE>,
+            do:   <T_HYPHEN_EXIT>,
+            fires { <cov_events.E_STEP> }
+        },
+        R_EXTERNAL {
+            when: <cov_other_events.E_EXTERNAL>,
+            do:   <T_SELF>,
+            fires { <cov_events.E_STEP>, <cov_events.E_DONE>, }
+        },
+    }
+}
