@@ -10,15 +10,6 @@ function M.check()
   local treesitter = require("secoro-dsl-nvim.treesitter")
 
   local config = require("secoro-dsl-nvim").config
-  local src = lsp.dsl_src()
-  if src then
-    health.ok("DSL sources: " .. src)
-  else
-    health.warn("no DSL checkout found above this directory", {
-      "open a file inside the workspace, then :SecoroDslInstallServer",
-    })
-  end
-
   local python, packages = lsp.find_python(config.python)
   if not python then
     health.error("no python with pygls found", {

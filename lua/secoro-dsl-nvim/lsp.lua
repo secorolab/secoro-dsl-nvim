@@ -59,38 +59,8 @@ function M.find_python(hint)
   return best, best_packages
 end
 
-local CHECKOUTS = { "motion-spec-dsl", "scene-dsl", "coord-dsl", "robbdd" }
-
---- Whether a directory holds any of the DSL checkouts.
-local function holds_checkouts(dir)
-  for _, checkout in ipairs(CHECKOUTS) do
-    if vim.fn.isdirectory(dir .. "/" .. checkout) == 1 then
-      return true
-    end
-  end
-  return false
-end
-
---- The workspace `src` directory the DSL packages are installed from: a
---- checkout of this plugin usually sits in it, so its own parent is the
---- workspace; installed from GitHub instead, the nearest checkout above the
---- current directory decides.
-function M.dsl_src()
-  local sibling = vim.fs.dirname(plugin_root())
-  if holds_checkouts(sibling) then
-    return sibling
-  end
-  for _, checkout in ipairs(CHECKOUTS) do
-    local found = vim.fs.find(checkout, { upward = true, type = "directory", limit = 1 })[1]
-    if found then
-      return vim.fs.dirname(found)
-    end
-  end
-  return nil
-end
-
---- Run build.sh: creates the venv with pygls and, when the DSL sources are
---- reachable, installs the DSL packages editable from there.
+--- Run build.sh: creates the venv with pygls and installs the DSL packages
+--- from GitHub. Also the way to pick up what has landed on their branches.
 ---@param opts table
 ---@param on_done fun(ok: boolean)|nil
 function M.install(opts, on_done)
@@ -101,16 +71,12 @@ function M.install(opts, on_done)
     return on_done and on_done(false)
   end
 
-  local src = M.dsl_src()
   vim.notify(
-    "secoro-dsl-nvim: installing server dependencies"
-      .. (src and (" (DSL from " .. src .. ")") or " (no DSL source found; no diagnostics)")
-      .. "...",
+    "secoro-dsl-nvim: installing the language server and the DSL packages...",
     vim.log.levels.INFO
   )
   vim.fn.jobstart({ "bash", build }, {
     cwd = root,
-    env = src and { SECORO_DSL_SRC = src } or nil,
     on_exit = function(_, code)
       if code == 0 then
         vim.notify("secoro-dsl-nvim: server ready.", vim.log.levels.INFO)
