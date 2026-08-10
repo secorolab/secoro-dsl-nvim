@@ -67,6 +67,16 @@ the interpreter, which packages import, and which parsers are compiled.
 A language whose package fails to import loses its diagnostics but keeps hover,
 completion and symbols.
 
+## Tests
+
+Run server and Neovim smoke tests:
+
+```sh
+.venv/bin/python3 test/test_server.py         # metamodels, diagnostics, outlines
+nvim --headless -u NONE -l test/smoke.lua     # filetypes, parsers, queries, LSP attach
+./check.sh                                    # the above, plus every grammar against every model
+```
+
 ## License
 
 MIT

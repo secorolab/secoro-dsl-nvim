@@ -53,6 +53,13 @@ done
 echo "== server"
 python=".venv/bin/python3"
 [ -x "$python" ] || python="python3"
-"$python" test/test_server.py
+"$python" test/test_server.py || status=1
+
+echo "== editor"
+if command -v nvim >/dev/null 2>&1; then
+    nvim --headless -u NONE -l test/smoke.lua || status=1
+else
+    echo "skip nvim not found"
+fi
 
 exit $status
