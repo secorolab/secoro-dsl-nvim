@@ -151,3 +151,73 @@
 ; the variation assigns it.
 (variable_variation_set "var" @label)
 (set_variable_variation_set "set" @label "var" @label)
+
+
+; ============================================== .bddx: how a variant is executed
+
+; ------------------------------------------------------- top-level introducers
+
+"Exec" @keyword
+"bhv" @keyword
+"impl" @keyword
+"obs" @keyword
+"policy" @keyword
+
+; ----------------------------------------------------------------- slot names
+
+"variant" @label
+"inst" @label
+"policies" @label
+"action" @label
+"topic" @label
+"type" @label
+"update-rate" @label
+"horizon" @label
+"provider" @label
+"observes" @label
+"less-than" @label
+"greater-than" @label
+"equals" @label
+"tolerance" @label
+"module" @label
+"attr" @label
+
+; ------------------------------------------------------------------ operators
+
+"linear" @keyword.operator
+"distance" @keyword.operator
+"between" @keyword.operator
+"ros" @keyword.operator
+"simulation" @keyword.operator
+"entity" @keyword.operator
+"state" @keyword.operator
+"trinary" @keyword.operator
+"py" @keyword.operator
+
+; ---------------------------------------------------------------------- types
+
+"observation" @type
+
+; ------------------------------------------------------- vocabulary constants
+
+(length_unit) @constant
+"Hz" @constant
+"seconds" @constant
+
+; ------------------------------------------------------------- declared names
+
+(behaviour_implementation namespace: (fqn) @module)
+(observation_provider namespace: (fqn) @module)
+(observation_policy namespace: (fqn) @module)
+(scenario_execution namespace: (fqn) @module)
+
+(behaviour_implementation name: (name) @variable)
+(observation_provider name: (name) @variable)
+(observation_policy name: (name) @variable)
+(scenario_execution name: (name) @variable)
+(observation name: (name) @variable)
+(py_module_attr attr: (name) @variable)
+(py_module_attr module: (fqn) @module)
+
+; `obs provider` declares one; `provider:` inside an observation names it.
+(observation_provider "provider" @keyword)

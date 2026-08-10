@@ -7,8 +7,7 @@ Neovim support for the secorolab DSL family:
 | `robmot` | `.robmot` | motion-spec guarded motions |
 | `scenex` | `.scene`, `.scenex`, `.ktree` | scene-dsl scenes, instances and device trees |
 | `fsm` | `.fsm` | coord-dsl finite state machines |
-| `bdd` | `.bdd` | robbdd acceptance-criteria scenarios |
-| `bddx` | `.bddx` | robbdd scenario executions |
+| `bdd` | `.bdd`, `.bddx` | robbdd acceptance-criteria scenarios and their executions |
 
 One plugin, because one model spans all of them: a `.robmot` imports the
 `.scenex` it runs in and the `.fsm` it is coordinated by, and a `.bddx` names
@@ -21,10 +20,11 @@ one grammar, one query set and one server module each.
 - language server: diagnostics, hover, completion, nested document symbols,
   goto-definition
 
-The `.scene`, `.scenex` and `.ktree` extensions share one grammar: their
-top-level constructs are disjoint, so a single parser reads each without ever
-accepting the other's. Which language a buffer is *checked* against still
-follows its extension, the way the toolchain reads it.
+Where a package registers several languages whose top-level constructs are
+disjoint -- `.scene`/`.scenex`/`.ktree`, and `.bdd`/`.bddx` -- they share one
+grammar and one filetype: a single parser reads each without ever accepting the
+other's. Which metamodel a buffer is *checked* against still follows its
+extension, the way the toolchain reads it.
 
 The tree-sitter grammars track the textX grammars in `motion_spec_dsl/grammars`,
 `scene_dsl/grammars`, `coord_dsl/metamodels` and `robbdd/grammars`. The language
@@ -42,23 +42,20 @@ package, so diagnostics are exactly what the DSL toolchain reports.
 
 ```lua
 {
-  "vamsikalagaturu/secoro-dsl-nvim",
-  ft = { "robmot", "scenex", "fsm", "bdd", "bddx" },
+  "secorolab/secoro-dsl-nvim",
+  ft = { "robmot", "scenex", "fsm", "bdd" },
   init = function()
     vim.filetype.add({
       extension = {
         robmot = "robmot",
         scene = "scenex", scenex = "scenex", ktree = "scenex",
         fsm = "fsm",
-        bdd = "bdd", bddx = "bddx",
+        bdd = "bdd", bddx = "bdd",
       },
     })
   end,
   config = function()
-    require("secoro-dsl-nvim").setup({
-      -- workspace `src` directory; the DSL packages are installed editable from here
-      dsl_src = "~/work/ms/src",
-    })
+    require("secoro-dsl-nvim").setup()
   end,
 }
 ```
@@ -67,7 +64,6 @@ Defaults:
 
 ```lua
 require("secoro-dsl-nvim").setup({
-  dsl_src = nil,           -- auto-detected, see below
   python = nil,            -- auto-detected, see below
   enable_treesitter = true,
   enable_lsp = true,
@@ -78,8 +74,7 @@ require("secoro-dsl-nvim").setup({
 ## The server venv
 
 On first use the plugin runs `build.sh`, which creates `.venv` inside the plugin
-directory with `pygls`. If `dsl_src` resolves to a directory holding the DSL
-checkouts, it also installs `motion-spec-dsl`, `coord-dsl`, `scene-dsl`,
+directory with `pygls`. If the DSL checkouts are found, it also installs `motion-spec-dsl`, `coord-dsl`, `scene-dsl`,
 `robbdd`, `bdd-dsl` and `rdf-utils` editable from there (with `--no-deps`, since
 the workspace siblings are not on PyPI and under-declare their dependencies)
 plus the handful of third-party packages their imports need.
@@ -88,8 +83,12 @@ They go in as a set on purpose. textX loads every registered language's entry
 point at once, so one package whose import fails takes the whole registry down
 with it: leave `bdd-dsl` out and `robbdd` fails to import, and then *no*
 language resolves a cross-file reference -- a `.scenex` starts reporting its
-imported `.scene` as a syntax error. `dsl_src` defaults to the parent of the
-nearest DSL checkout above the current directory.
+imported `.scene` as a syntax error.
+
+Where they are found is not a setting: a checkout of this plugin sits in the
+same `src` directory as the DSLs, so its own parent is the workspace. Installed
+from GitHub instead, the nearest DSL checkout above the current directory
+decides.
 
 A language whose package is missing simply has no diagnostics; the others are
 unaffected, and `:checkhealth secoro-dsl-nvim` says which is which.
@@ -147,7 +146,8 @@ holding it. A `.ktree` lists its bodies, each body its frames, each frame its
 poses; a `.robmot` lists its motions, each motion its `when`/`while`/`until`
 sections and each handler its monitors, controllers and solvers; a `.fsm` lists
 its states, transitions and reactions; a `.bdd` lists its stories, their
-variants, and the fluents each clause asserts.
+variants, and the fluents each clause asserts; a `.bddx` lists its policies and
+the observations each decides from.
 
 ## Development
 

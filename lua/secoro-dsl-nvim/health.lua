@@ -10,12 +10,12 @@ function M.check()
   local treesitter = require("secoro-dsl-nvim.treesitter")
 
   local config = require("secoro-dsl-nvim").config
-  local src = lsp.dsl_src(config.dsl_src)
+  local src = lsp.dsl_src()
   if src then
     health.ok("DSL sources: " .. src)
   else
-    health.warn("no DSL checkout found", {
-      "set `dsl_src` in setup() to the workspace src directory, then :SecoroDslInstallServer",
+    health.warn("no DSL checkout found above this directory", {
+      "open a file inside the workspace, then :SecoroDslInstallServer",
     })
   end
 
@@ -32,7 +32,7 @@ function M.check()
         health.ok("  " .. language.name .. ": " .. language.package .. " (diagnostics on)")
       else
         health.warn("  " .. language.name .. ": no " .. language.package .. " (no diagnostics)", {
-          "set `dsl_src` in setup() and run :SecoroDslInstallServer",
+          ":SecoroDslInstallServer",
         })
       end
     end

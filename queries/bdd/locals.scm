@@ -21,3 +21,15 @@
 (arg_var_map arg: (name) @local.definition.parameter)
 
 (ref path: (fqn) @local.reference)
+
+
+; .bddx: how a variant is executed.
+(observation_policy) @local.scope
+
+(behaviour_implementation name: (name) @local.definition.type)
+(observation_provider name: (name) @local.definition.type)
+(observation_policy name: (name) @local.definition.type)
+(scenario_execution name: (name) @local.definition.type)
+(observation name: (name) @local.definition.field)
+
+(ref path: (fqn) @local.reference)

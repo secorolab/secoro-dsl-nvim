@@ -84,6 +84,46 @@
     }
   },
   {
+    "type": "behaviour_implementation",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "py_module_attr",
+            "named": true
+          },
+          {
+            "type": "ros_bhv_action",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "can_reach_pred",
     "named": true,
     "fields": {
@@ -164,6 +204,98 @@
         "types": [
           {
             "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "distance_constraint",
+    "named": true,
+    "fields": {
+      "equals": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "distance_value",
+            "named": true
+          }
+        ]
+      },
+      "greater_than": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "distance_value",
+            "named": true
+          }
+        ]
+      },
+      "less_than": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "distance_value",
+            "named": true
+          }
+        ]
+      },
+      "lower": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "distance_value",
+            "named": true
+          }
+        ]
+      },
+      "tolerance": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "distance_value",
+            "named": true
+          }
+        ]
+      },
+      "upper": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "distance_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "distance_value",
+    "named": true,
+    "fields": {
+      "unit": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "length_unit",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
             "named": true
           }
         ]
@@ -627,6 +759,22 @@
     }
   },
   {
+    "type": "horizon_seconds",
+    "named": true,
+    "fields": {
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "import",
     "named": true,
     "fields": {
@@ -695,6 +843,47 @@
     }
   },
   {
+    "type": "length_unit",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "linear_distance_observation",
+    "named": true,
+    "fields": {
+      "constraint": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "distance_constraint",
+            "named": true
+          }
+        ]
+      },
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "located_at_pred",
     "named": true,
     "fields": {
@@ -740,6 +929,156 @@
         "types": [
           {
             "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "observation",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "provider": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "target": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "observation_policy",
+    "named": true,
+    "fields": {
+      "fluent": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "horizon": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "horizon_seconds",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "linear_distance_observation",
+            "named": true
+          },
+          {
+            "type": "py_module_attr",
+            "named": true
+          },
+          {
+            "type": "ros_trinary_topic",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "observation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "observation_provider",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ros_topic_provider",
+            "named": true
+          },
+          {
+            "type": "simulation_entity_state_provider",
             "named": true
           }
         ]
@@ -871,6 +1210,32 @@
     }
   },
   {
+    "type": "py_module_attr",
+    "named": true,
+    "fields": {
+      "attr": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "module": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "ref",
     "named": true,
     "fields": {
@@ -880,6 +1245,130 @@
         "types": [
           {
             "type": "fqn",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ros_bhv_action",
+    "named": true,
+    "fields": {
+      "action": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ros_topic_provider",
+    "named": true,
+    "fields": {
+      "topic": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ros_trinary_topic",
+    "named": true,
+    "fields": {
+      "topic": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "scenario_execution",
+    "named": true,
+    "fields": {
+      "bhv_impl": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "fqn",
+            "named": true
+          }
+        ]
+      },
+      "policy": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "scene_inst": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
+            "named": true
+          }
+        ]
+      },
+      "variant": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ref",
             "named": true
           }
         ]
@@ -1135,6 +1624,22 @@
     }
   },
   {
+    "type": "simulation_entity_state_provider",
+    "named": true,
+    "fields": {
+      "update_rate": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "source_file",
     "named": true,
     "root": true,
@@ -1143,6 +1648,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "behaviour_implementation",
+          "named": true
+        },
         {
           "type": "event",
           "named": true
@@ -1157,6 +1666,18 @@
         },
         {
           "type": "namespace_decl",
+          "named": true
+        },
+        {
+          "type": "observation_policy",
+          "named": true
+        },
+        {
+          "type": "observation_provider",
+          "named": true
+        },
+        {
+          "type": "scenario_execution",
           "named": true
         },
         {
@@ -1586,7 +2107,15 @@
     "named": false
   },
   {
+    "type": "Exec",
+    "named": false
+  },
+  {
     "type": "Given",
+    "named": false
+  },
+  {
+    "type": "Hz",
     "named": false
   },
   {
@@ -1638,6 +2167,10 @@
     "named": false
   },
   {
+    "type": "action",
+    "named": false
+  },
+  {
     "type": "after",
     "named": false
   },
@@ -1662,7 +2195,19 @@
     "named": false
   },
   {
+    "type": "attr",
+    "named": false
+  },
+  {
     "type": "before",
+    "named": false
+  },
+  {
+    "type": "between",
+    "named": false
+  },
+  {
+    "type": "bhv",
     "named": false
   },
   {
@@ -1671,6 +2216,10 @@
   },
   {
     "type": "can",
+    "named": false
+  },
+  {
+    "type": "cm",
     "named": false
   },
   {
@@ -1695,6 +2244,10 @@
     "named": false
   },
   {
+    "type": "distance",
+    "named": false
+  },
+  {
     "type": "does",
     "named": false
   },
@@ -1704,6 +2257,14 @@
   },
   {
     "type": "duration",
+    "named": false
+  },
+  {
+    "type": "entity",
+    "named": false
+  },
+  {
+    "type": "equals",
     "named": false
   },
   {
@@ -1723,6 +2284,10 @@
     "named": false
   },
   {
+    "type": "greater-than",
+    "named": false
+  },
+  {
     "type": "has",
     "named": false
   },
@@ -1735,11 +2300,23 @@
     "named": false
   },
   {
+    "type": "horizon",
+    "named": false
+  },
+  {
+    "type": "impl",
+    "named": false
+  },
+  {
     "type": "import",
     "named": false
   },
   {
     "type": "in",
+    "named": false
+  },
+  {
+    "type": "inst",
     "named": false
   },
   {
@@ -1751,7 +2328,27 @@
     "named": false
   },
   {
+    "type": "less-than",
+    "named": false
+  },
+  {
+    "type": "linear",
+    "named": false
+  },
+  {
     "type": "located",
+    "named": false
+  },
+  {
+    "type": "m",
+    "named": false
+  },
+  {
+    "type": "mm",
+    "named": false
+  },
+  {
+    "type": "module",
     "named": false
   },
   {
@@ -1775,6 +2372,18 @@
     "named": false
   },
   {
+    "type": "obs",
+    "named": false
+  },
+  {
+    "type": "observation",
+    "named": false
+  },
+  {
+    "type": "observes",
+    "named": false
+  },
+  {
     "type": "occurs",
     "named": false
   },
@@ -1795,7 +2404,23 @@
     "named": false
   },
   {
+    "type": "policies",
+    "named": false
+  },
+  {
+    "type": "policy",
+    "named": false
+  },
+  {
     "type": "pred",
+    "named": false
+  },
+  {
+    "type": "provider",
+    "named": false
+  },
+  {
+    "type": "py",
     "named": false
   },
   {
@@ -1807,7 +2432,15 @@
     "named": false
   },
   {
+    "type": "ros",
+    "named": false
+  },
+  {
     "type": "scene",
+    "named": false
+  },
+  {
+    "type": "seconds",
     "named": false
   },
   {
@@ -1819,7 +2452,15 @@
     "named": false
   },
   {
+    "type": "simulation",
+    "named": false
+  },
+  {
     "type": "sorted",
+    "named": false
+  },
+  {
+    "type": "state",
     "named": false
   },
   {
@@ -1843,11 +2484,35 @@
     "named": false
   },
   {
+    "type": "tolerance",
+    "named": false
+  },
+  {
+    "type": "topic",
+    "named": false
+  },
+  {
+    "type": "trinary",
+    "named": false
+  },
+  {
+    "type": "type",
+    "named": false
+  },
+  {
     "type": "until",
     "named": false
   },
   {
+    "type": "update-rate",
+    "named": false
+  },
+  {
     "type": "var",
+    "named": false
+  },
+  {
+    "type": "variant",
     "named": false
   },
   {

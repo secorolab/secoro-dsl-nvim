@@ -24,16 +24,11 @@ return {
     description = "coord-dsl finite state machines",
   },
   {
+    -- Two registered languages, one editor surface: a `.bddx` executes the
+    -- `.bdd` next to it, and their constructs are disjoint.
     name = "bdd",
-    extensions = { "bdd" },
+    extensions = { "bdd", "bddx" },
     package = "robbdd",
-    description = "robbdd acceptance-criteria scenarios",
-  },
-  {
-    -- Its own grammar and filetype, from the same package as `.bdd`.
-    name = "bddx",
-    extensions = { "bddx" },
-    package = "robbdd",
-    description = "robbdd scenario executions",
+    description = "robbdd scenarios and their executions",
   },
 }

@@ -59,17 +59,28 @@ function M.find_python(hint)
   return best, best_packages
 end
 
---- The workspace `src` directory the DSL packages are installed from.
---- Falls back to the nearest checkout of one of them above the current directory.
----@param hint string|nil explicit `dsl_src` from setup()
-function M.dsl_src(hint)
-  if hint then
-    hint = vim.fn.expand(hint)
-    if vim.fn.isdirectory(hint) == 1 then
-      return hint
+local CHECKOUTS = { "motion-spec-dsl", "scene-dsl", "coord-dsl", "robbdd" }
+
+--- Whether a directory holds any of the DSL checkouts.
+local function holds_checkouts(dir)
+  for _, checkout in ipairs(CHECKOUTS) do
+    if vim.fn.isdirectory(dir .. "/" .. checkout) == 1 then
+      return true
     end
   end
-  for _, checkout in ipairs({ "motion-spec-dsl", "scene-dsl", "coord-dsl" }) do
+  return false
+end
+
+--- The workspace `src` directory the DSL packages are installed from: a
+--- checkout of this plugin usually sits in it, so its own parent is the
+--- workspace; installed from GitHub instead, the nearest checkout above the
+--- current directory decides.
+function M.dsl_src()
+  local sibling = vim.fs.dirname(plugin_root())
+  if holds_checkouts(sibling) then
+    return sibling
+  end
+  for _, checkout in ipairs(CHECKOUTS) do
     local found = vim.fs.find(checkout, { upward = true, type = "directory", limit = 1 })[1]
     if found then
       return vim.fs.dirname(found)
@@ -90,7 +101,7 @@ function M.install(opts, on_done)
     return on_done and on_done(false)
   end
 
-  local src = M.dsl_src(opts.dsl_src)
+  local src = M.dsl_src()
   vim.notify(
     "secoro-dsl-nvim: installing server dependencies"
       .. (src and (" (DSL from " .. src .. ")") or " (no DSL source found; no diagnostics)")
@@ -152,8 +163,8 @@ local function register(root, opts)
         .. table.concat(missing, ", ")
         .. " not importable from "
         .. python
-        .. "; those languages get hover/completion/symbols but no diagnostics. Set `dsl_src` in "
-        .. "setup() and run :SecoroDslInstallServer (see :checkhealth secoro-dsl-nvim).",
+        .. "; those languages get hover/completion/symbols but no diagnostics. Run "
+        .. ":SecoroDslInstallServer (see :checkhealth secoro-dsl-nvim).",
       vim.log.levels.WARN
     )
   end

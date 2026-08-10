@@ -1,6 +1,9 @@
-"""The robbdd acceptance-criteria language: scenarios (`.bdd`).
+"""The robbdd acceptance-criteria languages: scenarios (`.bdd`) and how they are
+executed (`.bddx`).
 
-Its executions live in `.bddx`, next door in [robbdd_exec][robbdd_exec].
+robbdd registers those as two languages, `robbdd` and `robbdd-exec`, and each
+has its own metamodel -- but they are one surface to the editor, the way
+`.scene` and `.scenex` are.
 """
 
 from __future__ import annotations
@@ -12,23 +15,26 @@ from lsprotocol import types
 
 NAME = "bdd"
 PACKAGE = "robbdd"
-EXTENSIONS = ("bdd",)
+EXTENSIONS = ("bdd", "bddx")
 
 
-@lru_cache(maxsize=1)
-def metamodel(path: str = ""):
-    del path
-    from robbdd.langs import bdd_metamodel
+@lru_cache(maxsize=2)
+def _build(execution: bool):
+    from robbdd.langs import bdd_metamodel, bddx_metamodel
 
-    return bdd_metamodel()
+    return bddx_metamodel() if execution else bdd_metamodel()
+
+
+def metamodel(path: str):
+    return _build(path.endswith(".bddx"))
 
 
 # --------------------------------------------------------------------- symbols
 
 BLOCK_PATTERNS = (
     re.compile(
-        r"^\s*(?P<kw>User Story|Scenario Template|Scenario|const set"
-        r"|Behaviour"
+        r"^\s*(?P<kw>User Story|Scenario Template|Scenario Exec|Scenario|const set"
+        r"|Behaviour|bhv impl|obs provider|obs policy|observation"
         r"|(?P<bare>Event|Task))\b"
         r"(?:\s*\(\s*ns\s*=\s*[\w.-]+\s*\))?"
         r"(?:\s+(?P<name>[A-Za-z_][\w-]*))?"
@@ -51,6 +57,12 @@ BLOCK_KIND = {
     "Behaviour": types.SymbolKind.Method,
     "for all": types.SymbolKind.Operator,
     "holds": types.SymbolKind.Boolean,
+    # .bddx
+    "Scenario Exec": types.SymbolKind.Function,
+    "bhv impl": types.SymbolKind.Method,
+    "obs provider": types.SymbolKind.Interface,
+    "obs policy": types.SymbolKind.Class,
+    "observation": types.SymbolKind.Field,
 }
 
 
@@ -88,6 +100,29 @@ HOVER_DOCS: dict[str, str] = {
     "after": "**after** `<event>`",
     "from": "**from** `<event>` **until** `<event>`",
     "event": "**event** `<event>` **occurs**\n\nA When clause that fires on an event rather than a behaviour.",
+    # .bddx
+    "Exec": "**Scenario Exec** `(ns=<prefix>) <name> { variant:, scene inst:, bhv:, policies: {...} }`\n\nHow one scenario variant is actually run.",
+    "variant": "**variant** `: <scenario-variant>`\n\nThe `.bdd` variant this execution realizes.",
+    "inst": "**scene inst** `: <scene-instance>`\n\nThe executable scene from the `.scenex`.",
+    "bhv": '**bhv impl** `(ns=..) <name> { bhv action: "<action>" | py {...} }`\n\nWhat implements the behaviour. Inside an execution, **bhv** `: <impl>` names it.',
+    "impl": "**bhv impl** `(ns=<prefix>) <name> { ... }`",
+    "obs": "**obs provider** `(ns=..) <name> { ... }` and **obs policy** `(ns=..) <name> for <fluent> { ... }`\n\nWhere observations come from, and how they decide a fluent.",
+    "provider": "**obs provider** `(ns=..) <name> { ros topic: ... | ros simulation entity state ... }`\n\nAs `provider: <p>` inside an observation, which one it reads.",
+    "policy": "**obs policy** `(ns=..) <name> for <fluent> [horizon: <t> seconds] { observation..., <spec> }`\n\nHow a fluent's truth is decided from observations.",
+    "policies": "**policies** `: { <policy>, ... }`\n\nThe policies this execution evaluates.",
+    "observation": "**observation** `<name> { provider: <p>, [observes: <var>] }`",
+    "observes": "**observes** `: <variable>`\n\nThe scenario variable this observation follows.",
+    "horizon": "**horizon** `: <t> seconds`\n\nHow long the policy looks back before deciding.",
+    "linear": "**linear distance between** `<a>` **and** `<b>` `{ <constraint> }`\n\nDecides the fluent from the distance between two observations.",
+    "distance": "**linear distance between** `<a>` **and** `<b>` `{ ... }`",
+    "trinary": '**trinary topic** `: "<topic>"`\n\nThe fluent is whatever this topic reports: true, false, or unknown.',
+    "ros": '**ros topic** `: "<t>" type: "<msg>"` | **ros simulation entity state** `update-rate: <r> Hz`',
+    "py": "**py** `{ module: <a.b.c>, attr: <name> }`\n\nA Python callable stands in for the behaviour or the policy.",
+    "less-than": "**less-than** `: <d> mm|cm|m`",
+    "greater-than": "**greater-than** `: <d> mm|cm|m`",
+    "equals": "**equals** `: <d> <unit>` **tolerance** `: <d> <unit>`",
+    "update-rate": "**update-rate** `: <r> Hz`",
+    "Scenario": "**Scenario Exec** `(ns=<prefix>) <name> { ... }`",
 }
 
 
@@ -103,6 +138,13 @@ KEYWORDS = [
     "event", "occurs", "picks", "places", "at", "is", "located", "held", "by",
     "can", "reach", "does", "drop", "collide", "has", "config", "are", "sorted",
     "into", "select", "combinations", "permutations", "repeated", "obj", "ws",
-    "agn"
+    "agn",
+    "Exec", "variant", "inst", "bhv", "impl", "obs", "provider", "policy",
+    "policies", "observation", "observes", "horizon", "seconds", "linear",
+    "distance", "between", "tolerance", "equals", "less-than", "greater-than",
+    "trinary", "topic", "type", "action", "update-rate", "ros", "simulation",
+    "entity", "state", "py", "module", "attr"
 ]
+
+UNITS = ["mm", "cm", "m", "Hz", "seconds"]
 # fmt: on

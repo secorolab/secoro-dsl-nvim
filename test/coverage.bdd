@@ -120,3 +120,67 @@ User Story (ns=cov) cov-story {
                 set var <cov-template.targets>: select 3 permutations from <cov-const-set>
         }
 }
+
+// -------------------------------------------------------------------- .bddx
+// How the variants above are executed. A separate file in practice; here the
+// same one, since a single parser reads both.
+
+ns cov_x = "https://example.org/coverage/bddx/"
+
+bhv impl (ns=cov_x) cov-ros-bhv {
+    bhv action: "/bdd/mockup_bhv_server"
+}
+bhv impl (ns=cov_x) cov-py-bhv {
+    py { module: cov_pkg.behaviours, attr: pick_place }
+}
+
+obs provider (ns=cov_x) cov-entity-state {
+    ros simulation entity state
+    update-rate: 10 Hz
+}
+obs provider (ns=cov_x) cov-topic {
+    ros topic: "/recognized_poses"
+    type: "geometry_msgs/msg/PoseArray"
+}
+
+// Every distance-constraint form, one policy each.
+obs policy (ns=cov_x) cov-equals for <cov-template.fc-located> horizon: 0.5 seconds {
+    observation object-pose {
+        provider: <cov-entity-state>
+        observes: <cov-template.target>
+    }
+    observation ws-pose {
+        provider: <cov-entity-state>
+    }
+    linear distance between <object-pose> and <ws-pose> {
+        equals: 0.10 m tolerance: 0.01 m
+    }
+}
+obs policy (ns=cov_x) cov-less for <cov-template.fc-reach> {
+    observation a { provider: <cov-topic> }
+    observation b { provider: <cov-topic> }
+    linear distance between <a> and <b> { less-than: 5.0 cm }
+}
+obs policy (ns=cov_x) cov-greater for <cov-template.fc-held> {
+    observation a { provider: <cov-topic> }
+    observation b { provider: <cov-topic> }
+    linear distance between <a> and <b> { greater-than: 10.0 mm }
+}
+obs policy (ns=cov_x) cov-band for <cov-template.fc-placed> {
+    observation a { provider: <cov-topic> }
+    observation b { provider: <cov-topic> }
+    linear distance between <a> and <b> { between: 1.0 cm and 5.0 cm }
+}
+obs policy (ns=cov_x) cov-trinary for <cov-template.fc-sorted> {
+    trinary topic: "/bdd/sorted"
+}
+obs policy (ns=cov_x) cov-py for <cov-template.fc-no-drop> {
+    py { module: cov_pkg.policies, attr: no_drop }
+}
+
+Scenario Exec (ns=cov_x) cov-exec {
+    variant: <cov-story.cov-table>
+    scene inst: <cov_inst>
+    bhv: <cov-ros-bhv>
+    policies: { <cov-equals>, <cov-less>, <cov-greater>, <cov-band>, <cov-trinary>, <cov-py> }
+}

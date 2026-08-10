@@ -17,8 +17,7 @@ declare -A PATTERNS=(
     [robmot]="-name *.robmot"
     [scenex]="-name *.scene -o -name *.scenex -o -name *.ktree"
     [fsm]="-path */models/*/*.fsm -o -path */examples/models/*/*.fsm"
-    [bdd]="-name *.bdd"
-    [bddx]="-name *.bddx"
+    [bdd]="-name *.bdd -o -name *.bddx"
 )
 
 status=0

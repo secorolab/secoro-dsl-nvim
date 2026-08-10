@@ -1,12 +1,18 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
-// Mirrors the textX grammars in robbdd/grammars/*.tx (base, bdd). Deliberately
-// more permissive than textX where being strict would only cost error recovery
-// while editing: a scenario template's clauses may appear in any order and any
-// of them may be missing. Semantic checking is the language server's job.
+// Mirrors the textX grammars in robbdd/grammars/*.tx (base, bdd, bddx): the
+// scenarios of a `.bdd` and the executions of a `.bddx`. robbdd registers those
+// as two languages, but their top-level constructs are disjoint, so one parser
+// reads either file -- the way `.scene` and `.scenex` share the scenex grammar.
+// Which metamodel checks a buffer still follows its extension.
 //
-// The scene references (`scene: <s>`, `obj set <s>`) resolve against the
+// Deliberately more permissive than textX where being strict would only cost
+// error recovery while editing: a scenario template's clauses may appear in any
+// order and any of them may be missing. Semantic checking is the language
+// server's job.
+//
+// The scene references (`scene: <s>`, `scene inst: <si>`) resolve against the
 // scene-dsl language, which textX links in by registration; here they are plain
 // references like any other.
 
@@ -30,6 +36,12 @@ module.exports = grammar({
           $.explicit_set,
           $.scenario_template,
           $.user_story,
+          // .bddx: how a variant is executed. Disjoint from the above, so one
+          // parser reads either file without ever accepting the other's.
+          $.behaviour_implementation,
+          $.observation_policy,
+          $.observation_provider,
+          $.scenario_execution,
         ),
       ),
 
@@ -315,6 +327,125 @@ module.exports = grammar({
     scenario_set_variable: ($) => seq("set", "var", field("name", $.name)),
 
     _valid_var_value: ($) => choice($.ref, $.number, $.string),
+
+    // ------------------------------------------------------------- execution
+
+    scenario_execution: ($) =>
+      seq(
+        "Scenario", "Exec",
+        $._ns_header,
+        field("name", $.name),
+        "{",
+        "variant", ":", field("variant", $.ref),
+        "scene", "inst", ":", field("scene_inst", $.ref),
+        "bhv", ":", field("bhv_impl", $.ref),
+        "policies", ":", "{", commaSep1(field("policy", $.ref)), "}",
+        "}",
+      ),
+
+    behaviour_implementation: ($) =>
+      seq(
+        "bhv", "impl",
+        $._ns_header,
+        field("name", $.name),
+        "{",
+        field("spec", choice($.ros_bhv_action, $.py_module_attr)),
+        "}",
+      ),
+
+    ros_bhv_action: ($) => seq("bhv", "action", ":", field("action", $.string)),
+
+    // ------------------------------------------------------------ observation
+
+    observation_provider: ($) =>
+      seq(
+        "obs", "provider",
+        $._ns_header,
+        field("name", $.name),
+        "{",
+        field("spec", choice($.ros_topic_provider, $.simulation_entity_state_provider)),
+        "}",
+      ),
+
+    ros_topic_provider: ($) =>
+      seq(
+        "ros", "topic", ":", field("topic", $.string),
+        "type", ":", field("type", $.string),
+      ),
+
+    simulation_entity_state_provider: ($) =>
+      seq(
+        "ros", "simulation", "entity", "state",
+        "update-rate", ":", field("update_rate", $.number), "Hz",
+      ),
+
+    observation_policy: ($) =>
+      seq(
+        "obs", "policy",
+        $._ns_header,
+        field("name", $.name),
+        "for", field("fluent", $.ref),
+        optional(seq("horizon", ":", field("horizon", $.horizon_seconds))),
+        "{",
+        repeat($.observation),
+        field("spec", $._policy_spec),
+        "}",
+      ),
+
+    horizon_seconds: ($) => seq(field("value", $.number), "seconds"),
+
+    observation: ($) =>
+      seq(
+        "observation",
+        field("name", $.name),
+        "{",
+        "provider", ":", field("provider", $.ref),
+        optional(seq("observes", ":", field("target", $.ref))),
+        "}",
+      ),
+
+    _policy_spec: ($) =>
+      choice($.ros_trinary_topic, $.linear_distance_observation, $.py_module_attr),
+
+    ros_trinary_topic: ($) => seq("trinary", "topic", ":", field("topic", $.string)),
+
+    linear_distance_observation: ($) =>
+      seq(
+        "linear", "distance", "between", field("left", $.ref),
+        "and", field("right", $.ref),
+        "{",
+        field("constraint", $.distance_constraint),
+        "}",
+      ),
+
+    distance_constraint: ($) =>
+      choice(
+        seq("less-than", ":", field("less_than", $.distance_value)),
+        seq("greater-than", ":", field("greater_than", $.distance_value)),
+        seq(
+          "between", ":", field("lower", $.distance_value),
+          "and", field("upper", $.distance_value),
+        ),
+        seq(
+          "equals", ":", field("equals", $.distance_value),
+          "tolerance", ":", field("tolerance", $.distance_value),
+        ),
+      ),
+
+    distance_value: ($) => seq(field("value", $.number), field("unit", $.length_unit)),
+
+    length_unit: (_) => choice("mm", "cm", "m"),
+
+    // ---------------------------------------------------------------- base.tx
+
+    py_module_attr: ($) =>
+      seq(
+        "py",
+        "{",
+        "module", ":", field("module", $.fqn), ",",
+        "attr", ":", field("attr", $.name),
+        "}",
+      ),
 
     // --------------------------------------------------------------- terminals
 

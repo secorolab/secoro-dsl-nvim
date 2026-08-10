@@ -35,6 +35,14 @@ def test_every_language_is_reachable_by_extension():
     assert languages.for_path("/m/no-extension") is None
 
 
+def test_bdd_extensions_pick_their_own_metamodel():
+    if _skip_without("robbdd"):
+        return
+    # Only the execution metamodel knows how a variant is run.
+    assert "ScenarioExecution" in languages.robbdd.metamodel("/m/x.bddx")
+    assert "ScenarioExecution" not in languages.robbdd.metamodel("/m/x.bdd")
+
+
 def test_scene_extensions_pick_their_own_metamodel():
     if _skip_without("scene_dsl"):
         return
@@ -104,7 +112,9 @@ def test_bdd_outline_lists_stories_templates_and_fluents():
 
 
 def test_bddx_outline_lists_policies_and_their_observations():
-    found = {name: (kw, depth) for kw, name, _, _, depth in blocks_of("bddx")}
+    # `.bdd` and `.bddx` share a parser and a module, so one coverage file holds
+    # both halves.
+    found = {name: (kw, depth) for kw, name, _, _, depth in blocks_of("bdd")}
     assert found["cov-exec"] == ("Scenario Exec", 0)
     assert found["cov-ros-bhv"] == ("bhv impl", 0)
     assert found["cov-entity-state"] == ("obs provider", 0)
@@ -266,12 +276,12 @@ def test_completion_offers_each_language_its_own_words():
     assert "ktree" in offered["scenex"] and "force-torque" in offered["scenex"]
     assert "transitions" in offered["fsm"] and "fires" in offered["fsm"]
     assert "Scenario" in offered["bdd"] and "holds" in offered["bdd"]
-    assert "obs" in offered["bddx"] and "horizon" in offered["bddx"]
+    assert "obs" in offered["bdd"] and "horizon" in offered["bdd"]
     # No language offers another's vocabulary.
     assert "guarded-motion" not in offered["scenex"] | offered["fsm"]
     assert "ktree" not in offered["robmot"] | offered["fsm"]
     assert "reactions" not in offered["robmot"] | offered["scenex"]
-    assert "holds" not in offered["scenex"] | offered["fsm"] | offered["bddx"]
+    assert "holds" not in offered["scenex"] | offered["fsm"]
     # Every offered word carries a one-line detail.
     for module in languages.MODULES:
         for item in lsp.completions(module):

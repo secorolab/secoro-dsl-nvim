@@ -13,3 +13,14 @@
   (set_expr)
   (set_of_sets_expr)
 ] @fold
+
+
+; .bddx: how a variant is executed.
+[
+  (behaviour_implementation)
+  (observation_provider)
+  (observation_policy)
+  (observation)
+  (linear_distance_observation)
+  (scenario_execution)
+] @fold
