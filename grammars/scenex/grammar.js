@@ -541,7 +541,13 @@ module.exports = grammar({
 
     number: (_) => token(seq(optional(/[-+]/), choice(/\d+(\.\d*)?([eE][-+]?\d+)?/, /\.\d+([eE][-+]?\d+)?/))),
 
-    // textX accepts either quote style, and the models use both.
-    string: (_) => token(choice(seq('"', /[^"]*/, '"'), seq("'", /[^']*/, "'"))),
+    // Either quote style, with backslash escapes.
+    string: (_) =>
+      token(
+        choice(
+          seq('"', /[^"\\]*(\\.[^"\\]*)*/, '"'),
+          seq("'", /[^'\\]*(\\.[^'\\]*)*/, "'"),
+        ),
+      ),
   },
 })

@@ -13,11 +13,14 @@ PYTHON="$VENV/bin/python3"
 SRC="${SECORO_DSL_SRC:-}"
 
 # The workspace siblings are not on PyPI and under-declare their dependencies,
-# so they go in with --no-deps and the third-party ones are named here. This is
+# so they go in with --no-deps and the third-party ones are named here. They go
+# in as a set: textX loads every registered language's entry point at once, so
+# one package whose import fails (robbdd needs bdd_dsl) takes the whole registry
+# down with it, and every language loses its diagnostics. This is
 # only what importing their metamodels needs: the server parses and validates,
 # it never builds a graph, so stock rdflib is enough and the workspace's patched
 # fork is not required.
-SIBLINGS=(motion-spec-dsl coord-dsl scene-dsl rdf-utils)
+SIBLINGS=(motion-spec-dsl coord-dsl scene-dsl robbdd bdd-dsl rdf-utils)
 IMPORT_DEPS=(textx pyshacl rdflib numpy scipy jinja2 platformdirs)
 
 if command -v uv >/dev/null 2>&1; then
@@ -51,7 +54,7 @@ fi
 install --no-deps "${editable[@]}"
 install "${IMPORT_DEPS[@]}"
 
-for package in motion_spec_dsl scene_dsl coord_dsl; do
+for package in motion_spec_dsl scene_dsl coord_dsl robbdd; do
     if "$PYTHON" -c "import $package" 2>/dev/null; then
         echo "secoro-dsl-nvim: $package installed; diagnostics enabled"
     else

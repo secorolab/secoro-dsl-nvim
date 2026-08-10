@@ -20,6 +20,7 @@ SOURCES = {
 WORKSPACE = ROOT.parent
 SCENE_EXAMPLES = WORKSPACE / "scene-dsl" / "examples" / "models"
 MOTION_MODELS = WORKSPACE / "motion-spec-dsl" / "models"
+BDD_EXAMPLES = WORKSPACE / "robbdd" / "examples" / "models"
 
 
 def blocks_of(name):
@@ -89,6 +90,28 @@ def test_fsm_outline_lists_transitions_and_reactions():
     assert found["fires"][1] == 3, found["fires"]
 
 
+def test_bdd_outline_lists_stories_templates_and_fluents():
+    found = {name: (kw, depth) for kw, name, _, _, depth in blocks_of("bdd")}
+    assert found["cov-template"] == ("Scenario Template", 0)
+    assert found["cov-story"] == ("User Story", 0)
+    assert found["evt-start"] == ("Event", 0)
+    assert found["cov-const-set"] == ("const set", 0)
+    # A variant nests under its story, and a fluent under the clause holding it.
+    assert found["cov-table"] == ("Scenario", 1)
+    assert found["x"] == ("for all", 1)
+    assert found["fc-located"][0] == "holds"
+    assert found["fc-located"][1] > found["x"][1]
+
+
+def test_bddx_outline_lists_policies_and_their_observations():
+    found = {name: (kw, depth) for kw, name, _, _, depth in blocks_of("bddx")}
+    assert found["cov-exec"] == ("Scenario Exec", 0)
+    assert found["cov-ros-bhv"] == ("bhv impl", 0)
+    assert found["cov-entity-state"] == ("obs provider", 0)
+    assert found["cov-equals"] == ("obs policy", 0)
+    assert found["object-pose"] == ("observation", 1)
+
+
 def test_a_one_line_block_does_not_swallow_the_next():
     ktree = (SCENE_EXAMPLES / "kinova_gen3_7dof.ktree").read_text()
     patterns = languages.scene_dsl.BLOCK_PATTERNS
@@ -135,6 +158,8 @@ def test_diagnostics_of_the_workspace_models():
         *SCENE_EXAMPLES.glob("*"),
         *MOTION_MODELS.glob("*/*.robmot"),
         *MOTION_MODELS.glob("*/*.fsm"),
+        *BDD_EXAMPLES.glob("*.bdd"),
+        *BDD_EXAMPLES.glob("*.bddx"),
     ]
     checked = 0
     for model in sorted(models):
@@ -169,6 +194,28 @@ def test_diagnostics_report_the_real_error():
             "ns lab = 'https://example.org/'\nktree inst (ns=lab) a of <missing>\n",
             1,
             "missing",
+        ),
+        (
+            BDD_EXAMPLES / "broken.bdd",
+            'import "lab.scene"\n'
+            "ns b = 'https://example.org/b/'\n"
+            "Task (ns=b) t\n"
+            "Event (ns=b) e1\n"
+            "Event (ns=b) e2\n"
+            "Scenario Template (ns=b) tmpl {\n"
+            "    duration: from <e1> until <e2>\n"
+            "    task: <t>\n"
+            "    var robot\n"
+            "    var obj\n"
+            "    When:\n"
+            "        Behaviour (ns=b) bhv {\n"
+            "            duration: from <e1> until <e2>\n"
+            "            <robot> picks <obj>\n"
+            "        }\n"
+            "    Then: fc: holds(<robot> can reach <nope>, after <e1>)\n"
+            "}\n",
+            15,
+            "nope",
         ),
         (
             MOTION_MODELS / "broken.fsm",
@@ -218,10 +265,13 @@ def test_completion_offers_each_language_its_own_words():
     assert "guarded-motion" in offered["robmot"] and "achd" in offered["robmot"]
     assert "ktree" in offered["scenex"] and "force-torque" in offered["scenex"]
     assert "transitions" in offered["fsm"] and "fires" in offered["fsm"]
+    assert "Scenario" in offered["bdd"] and "holds" in offered["bdd"]
+    assert "obs" in offered["bddx"] and "horizon" in offered["bddx"]
     # No language offers another's vocabulary.
     assert "guarded-motion" not in offered["scenex"] | offered["fsm"]
     assert "ktree" not in offered["robmot"] | offered["fsm"]
     assert "reactions" not in offered["robmot"] | offered["scenex"]
+    assert "holds" not in offered["scenex"] | offered["fsm"] | offered["bddx"]
     # Every offered word carries a one-line detail.
     for module in languages.MODULES:
         for item in lsp.completions(module):

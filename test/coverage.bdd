@@ -1,0 +1,122 @@
+// Constructs the workspace models do not exercise, kept parseable by ./check.sh.
+import "coverage.scenex"
+
+ns cov = "https://example.org/coverage/bdd/"
+ns cov-tmpl = 'https://example.org/coverage/bdd/templates/'
+
+Task (ns=cov-tmpl) cov-task
+Event (ns=cov-tmpl) evt-start
+Event (ns=cov-tmpl) evt-end
+Event (ns=cov-tmpl) evt-pick
+Event (ns=cov-tmpl) evt-place
+
+const set (ns=cov) cov-const-set {
+    <cov_workspaces.table_ws>, <cov_workspaces.shelf_ws>, 3, "literal"
+}
+
+Scenario Template (ns=cov-tmpl) cov-template {
+    duration: from <evt-start> until <evt-end>
+    task: <cov-task>
+
+    var robot
+    var target
+    var pick-ws
+    set var targets
+    set var place-workspaces
+
+    Given:
+        "a text clause instead of a fluent" before <evt-pick>
+
+    for all ( var x in <targets> ) {
+        Given:
+        (
+            fc-located: holds(<x> is located at <pick-ws>, before <evt-pick>)
+            and
+            (
+                not
+                ( fc-held: holds(<x> is held by <robot>, before <evt-pick>) )
+            )
+            and
+            fc-reach: holds(<robot> can reach <x>, before <evt-pick>)
+            or
+            fc-config: holds(<robot> has config ee_speed = <target>, before <evt-pick>)
+        )
+        When:
+            event <evt-pick> occurs
+            Behaviour (ns=cov-tmpl) cov-pick {
+                duration: from <evt-pick> until <evt-place>
+                <robot> picks <x>
+            }
+        Then:
+            ( var y exists in <place-workspaces> ) such that {
+                fc-placed: holds(<x> is located at <y>, after <evt-place>)
+            }
+    }
+
+    When:
+        Behaviour (ns=cov-tmpl) cov-place {
+            duration: from <evt-pick> until <evt-place>
+            <robot> places <target> at <pick-ws>
+        }
+
+    Then:
+    (
+        fc-sorted: holds(<targets> are sorted into <place-workspaces>, from <evt-pick> until <evt-place>)
+        and
+        fc-no-drop: holds(<robot> does not drop <target>, after <evt-pick>)
+        and
+        fc-no-collide: holds(<robot> does not collide <pick-ws>, after <evt-pick>)
+        and
+        fc-tmpl: holds(
+            pred("\"{robot}\" keeps \"{obj}\" steady", robot=<robot>, obj=<target>),
+            from <evt-pick> until <evt-place>
+        )
+    )
+}
+
+User Story (ns=cov) cov-story {
+    As A "Function Developer"
+    I Want "every variation form"
+    So That "the grammar stays covered"
+
+    Scenarios:
+        // A table variation, with a literal and a set in its cells.
+        Scenario cov-table {
+            template: <cov-template>
+            scene: <cov_scene>
+
+            variation:
+            | <cov-template.robot> | <cov-template.target> | <cov-template.pick-ws> |
+            |---|
+            | <cov_agents.arm> | <cov_objects.box> | <cov_workspaces.table_ws> |
+            | <cov_agents.base> | 0.5 | { <cov_workspaces.shelf_ws> } |
+        }
+
+        // A cartesian-product variation, with every set form.
+        Scenario cov-product {
+            template: <cov-template>
+            scene: <cov_scene>
+
+            When:
+                event <evt-start> occurs
+
+            variation:
+                var <cov-template.robot>: agn set <cov_agents>
+                var <cov-template.target>: obj set <cov_objects>
+                var <cov-template.pick-ws>: ws set <cov_workspaces>
+                set var <cov-template.targets>: select 2 repeated combinations from <cov_objects>
+                set var <cov-template.place-workspaces>: {
+                    { <cov_workspaces.table_ws> },
+                    { <cov_workspaces.shelf_ws>, <cov_workspaces.table_ws> }
+                }
+        }
+
+        Scenario cov-permutation {
+            template: <cov-template>
+            scene: <cov_scene>
+
+            variation:
+                var <cov-template.robot>: set <cov-const-set>
+                set var <cov-template.targets>: select 3 permutations from <cov-const-set>
+        }
+}

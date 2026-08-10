@@ -9,14 +9,16 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 # rejects too.
 CORPUS_ROOTS=(
     ../motion-spec-dsl/models ../motion-spec-dsl/tests/fixtures
-    ../bdd_collab_bhv_cpp/models ../scene-dsl/examples ../robbdd/examples
-    ../coord-dsl/examples
+    ../bdd_collab_bhv_cpp/models ../scene-dsl/examples ../coord-dsl/examples
+    ../robbdd/examples ../bdd-dsl/docs/assets/models
 )
 
 declare -A PATTERNS=(
     [robmot]="-name *.robmot"
     [scenex]="-name *.scene -o -name *.scenex -o -name *.ktree"
     [fsm]="-path */models/*/*.fsm -o -path */examples/models/*/*.fsm"
+    [bdd]="-name *.bdd"
+    [bddx]="-name *.bddx"
 )
 
 status=0

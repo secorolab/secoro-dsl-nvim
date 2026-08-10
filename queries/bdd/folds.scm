@@ -1,0 +1,15 @@
+[
+  (explicit_set)
+  (scenario_template)
+  (user_story)
+  (scenario_variant)
+  (forall_expr)
+  (exists_expr)
+  (when_behaviour_clause)
+  (fluent_group_expr)
+  (fluent_not_expr)
+  (table_variation)
+  (cartesian_product_variation)
+  (set_expr)
+  (set_of_sets_expr)
+] @fold

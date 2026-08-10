@@ -771,7 +771,14 @@ module.exports = grammar({
     // textX IRI_TRUNK: starts with a letter or _, may contain inner hyphens.
     name: (_) => token(/[A-Za-z_][A-Za-z0-9_]*(-[A-Za-z0-9_]+)*/),
 
-    string: (_) => token(seq('"', /[^"\\]*(\\.[^"\\]*)*/, '"')),
+    // Either quote style, with backslash escapes.
+    string: (_) =>
+      token(
+        choice(
+          seq('"', /[^"\\]*(\\.[^"\\]*)*/, '"'),
+          seq("'", /[^'\\]*(\\.[^'\\]*)*/, "'"),
+        ),
+      ),
 
     number: (_) => token(/[-+]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][-+]?[0-9]+)?/),
 

@@ -7,9 +7,9 @@ lists completion is built from (KEYWORDS, optionally TYPES and UNITS).
 
 from os.path import splitext
 
-from . import coord_dsl, motion_spec, scene_dsl
+from . import coord_dsl, motion_spec, robbdd, robbdd_exec, scene_dsl
 
-MODULES = (motion_spec, scene_dsl, coord_dsl)
+MODULES = (motion_spec, scene_dsl, coord_dsl, robbdd, robbdd_exec)
 
 _BY_EXTENSION = {extension: module for module in MODULES for extension in module.EXTENSIONS}
 

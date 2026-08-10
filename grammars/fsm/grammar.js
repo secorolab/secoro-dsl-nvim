@@ -114,7 +114,13 @@ module.exports = grammar({
     // textX IRI_TRUNK: a word that does not start with a digit, hyphens allowed.
     name: (_) => /[A-Za-z_][A-Za-z0-9_-]*/,
 
-    // textX accepts either quote style.
-    string: (_) => token(choice(seq('"', /[^"]*/, '"'), seq("'", /[^']*/, "'"))),
+    // Either quote style, with backslash escapes.
+    string: (_) =>
+      token(
+        choice(
+          seq('"', /[^"\\]*(\\.[^"\\]*)*/, '"'),
+          seq("'", /[^'\\]*(\\.[^'\\]*)*/, "'"),
+        ),
+      ),
   },
 })

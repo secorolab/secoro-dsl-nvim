@@ -23,4 +23,17 @@ return {
     package = "coord_dsl",
     description = "coord-dsl finite state machines",
   },
+  {
+    name = "bdd",
+    extensions = { "bdd" },
+    package = "robbdd",
+    description = "robbdd acceptance-criteria scenarios",
+  },
+  {
+    -- Its own grammar and filetype, from the same package as `.bdd`.
+    name = "bddx",
+    extensions = { "bddx" },
+    package = "robbdd",
+    description = "robbdd scenario executions",
+  },
 }
