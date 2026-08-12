@@ -1,0 +1,8 @@
+# Written by `tree-sitter generate`, and committed so the plugin can compile a
+# parser without the tree-sitter CLI installed. A grammar change renumbers the
+# whole parse table, so these rewrite wholesale and drown the diff they came
+# from: collapse them, and review grammar.js.
+grammars/*/src/parser.c        linguist-generated=true
+grammars/*/src/grammar.json    linguist-generated=true
+grammars/*/src/node-types.json linguist-generated=true
+grammars/*/src/tree_sitter/*.h linguist-generated=true
