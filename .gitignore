@@ -1,3 +1,8 @@
 .venv/
 node_modules/
 __pycache__/
+# `tree-sitter generate` writes these next to parser.c, but nothing here reads
+# them: Neovim compiles parser.c against tree_sitter/parser.h and nothing else,
+# and check.sh regenerates them before it parses anything.
+grammars/*/src/grammar.json
+grammars/*/src/node-types.json
