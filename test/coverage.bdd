@@ -147,35 +147,43 @@ obs provider (ns=cov_x) cov-topic {
 obs policy (ns=cov_x) cov-equals for <cov-template.fc-located> horizon: 0.5 seconds {
     observation object-pose {
         provider: <cov-entity-state>
-        observes: <cov-template.target>
+        observes var <cov-template.target>
     }
     observation ws-pose {
         provider: <cov-entity-state>
+        observes ws <cov_workspaces.table_ws>
     }
-    linear distance between <object-pose> and <ws-pose> {
+    time extractor: py { module: cov_pkg.observation, attr: stamp }
+    entity mapper: py { module: cov_pkg.observation, attr: entities }
+    evaluator: linear distance {
         equals: 0.10 m tolerance: 0.01 m
     }
 }
 obs policy (ns=cov_x) cov-less for <cov-template.fc-reach> {
-    observation a { provider: <cov-topic> }
-    observation b { provider: <cov-topic> }
-    linear distance between <a> and <b> { less-than: 5.0 cm }
+    observation a { provider: <cov-topic> observes obj <cov_objects.box> }
+    observation b { provider: <cov-topic> observes agn <cov_agents.arm> }
+    time extractor: py { module: cov_pkg.observation, attr: stamp }
+    evaluator: linear distance { less-than: 5.0 cm }
 }
 obs policy (ns=cov_x) cov-greater for <cov-template.fc-held> {
     observation a { provider: <cov-topic> }
     observation b { provider: <cov-topic> }
-    linear distance between <a> and <b> { greater-than: 10.0 mm }
+    time extractor: py { module: cov_pkg.observation, attr: stamp }
+    evaluator: linear distance { greater-than: 10.0 mm }
 }
 obs policy (ns=cov_x) cov-band for <cov-template.fc-placed> {
     observation a { provider: <cov-topic> }
     observation b { provider: <cov-topic> }
-    linear distance between <a> and <b> { between: 1.0 cm and 5.0 cm }
+    time extractor: py { module: cov_pkg.observation, attr: stamp }
+    evaluator: linear distance { between: 1.0 cm and 5.0 cm }
 }
 obs policy (ns=cov_x) cov-trinary for <cov-template.fc-sorted> {
     trinary topic: "/bdd/sorted"
 }
 obs policy (ns=cov_x) cov-py for <cov-template.fc-no-drop> {
-    py { module: cov_pkg.policies, attr: no_drop }
+    observation a { provider: <cov-topic> }
+    time extractor: py { module: cov_pkg.observation, attr: stamp }
+    evaluator: py { module: cov_pkg.policies, attr: no_drop }
 }
 
 Scenario Exec (ns=cov_x) cov-exec {

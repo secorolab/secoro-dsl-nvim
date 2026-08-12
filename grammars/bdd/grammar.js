@@ -387,8 +387,7 @@ module.exports = grammar({
         "for", field("fluent", $.ref),
         optional(seq("horizon", ":", field("horizon", $.horizon_seconds))),
         "{",
-        repeat($.observation),
-        field("spec", $._policy_spec),
+        field("spec", choice($.ros_trinary_topic_policy, $.evaluated_observation_policy)),
         "}",
       ),
 
@@ -400,19 +399,32 @@ module.exports = grammar({
         field("name", $.name),
         "{",
         "provider", ":", field("provider", $.ref),
-        optional(seq("observes", ":", field("target", $.ref))),
+        optional(seq(
+          "observes",
+          choice(
+            seq("var", field("var_target", $.ref)),
+            seq("obj", field("obj_target", $.ref)),
+            seq("agn", field("agn_target", $.ref)),
+            seq("ws", field("ws_target", $.ref)),
+          ),
+        )),
         "}",
       ),
 
-    _policy_spec: ($) =>
-      choice($.ros_trinary_topic, $.linear_distance_observation, $.py_module_attr),
+    ros_trinary_topic_policy: ($) =>
+      seq("trinary", "topic", ":", field("topic", $.string)),
 
-    ros_trinary_topic: ($) => seq("trinary", "topic", ":", field("topic", $.string)),
-
-    linear_distance_observation: ($) =>
+    evaluated_observation_policy: ($) =>
       seq(
-        "linear", "distance", "between", field("left", $.ref),
-        "and", field("right", $.ref),
+        repeat1($.observation),
+        "time", "extractor", ":", field("time_extractor", $.py_module_attr),
+        optional(seq("entity", "mapper", ":", field("entity_mapper", $.py_module_attr))),
+        "evaluator", ":", field("evaluator", choice($.py_module_attr, $.linear_distance_evaluator)),
+      ),
+
+    linear_distance_evaluator: ($) =>
+      seq(
+        "linear", "distance",
         "{",
         field("constraint", $.distance_constraint),
         "}",

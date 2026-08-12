@@ -20,7 +20,8 @@
   (behaviour_implementation)
   (observation_provider)
   (observation_policy)
+  (evaluated_observation_policy)
   (observation)
-  (linear_distance_observation)
+  (linear_distance_evaluator)
   (scenario_execution)
 ] @fold
