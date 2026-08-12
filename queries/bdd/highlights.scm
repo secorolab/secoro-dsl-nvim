@@ -175,6 +175,10 @@
 "horizon" @label
 "provider" @label
 "observes" @label
+"time" @label
+"extractor" @label
+"mapper" @label
+"evaluator" @label
 "less-than" @label
 "greater-than" @label
 "equals" @label
@@ -186,7 +190,6 @@
 
 "linear" @keyword.operator
 "distance" @keyword.operator
-"between" @keyword.operator
 "ros" @keyword.operator
 "simulation" @keyword.operator
 "entity" @keyword.operator
