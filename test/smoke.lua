@@ -42,6 +42,11 @@ for _, language in ipairs(languages) do
   check(vim.bo.filetype == language.name, language.name .. ": filetype of the coverage file")
   check(vim.bo.commentstring == "// %s", language.name .. ": commentstring")
 
+  if vim.fn.executable("tree-sitter") == 0 then
+    say("     (no tree-sitter CLI; " .. language.name .. " parser not checked)")
+    goto continue
+  end
+
   local ok, parser = pcall(vim.treesitter.get_parser, 0, language.name)
   check(ok, language.name .. ": parser loads")
   if ok then
@@ -58,6 +63,8 @@ for _, language in ipairs(languages) do
       check(captures > 0, language.name .. ": highlights " .. captures .. " nodes")
     end
   end
+
+  ::continue::
 end
 
 -- One client serves the family, so the last buffer speaks for all of them.

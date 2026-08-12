@@ -19,7 +19,10 @@ the server imports the packages' textX metamodels and hands them the buffer.
 ## Requirements
 
 - Neovim >= 0.10 (0.11+ uses the native `vim.lsp.config`)
-- a C compiler, for the tree-sitter parsers
+- the [tree-sitter CLI](https://github.com/tree-sitter/tree-sitter) and a C
+  compiler, to build the parsers -- `:MasonInstall tree-sitter-cli`, or `cargo`
+  or `npm` install it. Without them the regex syntax highlights instead, and
+  `:SecoroDslBuildParsers` retries once they are there.
 - Python 3.11+, and `uv` or `venv`
 
 ## Installation
@@ -58,7 +61,8 @@ require("secoro-dsl-nvim").setup({
 
 ## The language server
 
-On first use the plugin builds `.venv` inside its own directory: `pygls`, plus
+On first use the plugin generates each parser from its grammar and compiles it
+-- about a second in total, once -- and builds `.venv` inside its own directory: `pygls`, plus
 the DSL packages from GitHub (`motion-spec-dsl` from `dev`, the rest from
 `main`). `:SecoroDslInstallServer` rebuilds it, which is also how to pick up
 what has landed on those branches since. `:checkhealth secoro-dsl-nvim` shows
