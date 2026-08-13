@@ -15,7 +15,7 @@ syntax keyword sceneModifier extrinsic
 
 " Slot names: sub-block openers and field keys
 syntax keyword sceneSlot joints inertia actuation limits mimic polarity
-syntax keyword sceneSlot parent child root tip joint multiplier gear ratio
+syntax keyword sceneSlot parent child root anchor tip joint multiplier gear ratio
 syntax keyword sceneSlot command-interface state-interface mass inertia-matrix
 syntax keyword sceneSlot wrt xyz xyzw angles axes unit orientation
 syntax keyword sceneSlot dimension lower upper mean std-dev covariance

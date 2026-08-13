@@ -51,6 +51,7 @@
 "parent" @label
 "child" @label
 "root" @label
+"anchor" @label
 "tip" @label
 "joint" @label
 "multiplier" @label
