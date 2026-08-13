@@ -45,7 +45,7 @@ context (ns=app) shared {
         duration budget = 5.0 s
     },
     spec {
-        length band = 0.01 m,
+        distance band = 0.01 m,
         force fmax = 10.0 N,
         direction normal { as-seen-by: <c> } = (1.0, 0.0, 0.0),
         velocity-twist tw = {
@@ -120,7 +120,7 @@ guarded-motion (ns=app) cover {
         }
     }
 
-    find-it: detect { <scene.cube> } using <app.locate>
+    find-it: detect { <scene.cube> } using <ros.action-clients.locate>
 
     when any {
         near: distance between <shared.world.ee> and <shared.spec.turned> less than [shared.spec.band],
@@ -162,13 +162,13 @@ constraint-handler (ns=app) cover-handler {
         m1: monitor <cover.until> {
             satisfied for 0.3 s {
                 trigger: event <app.E_DONE>,
-                publish: event to <app.events>,
+                publish: event to <ros.publishers.events>,
                 flag: covering
             },
             violated {
                 hold: <cover>,
-                publish: to <app.events> { trinary.value: FALSE },
-                publish: TRUE to <app.events>
+                publish: to <ros.publishers.events> { trinary.value: FALSE },
+                publish: TRUE to <ros.publishers.events>
             },
         }
     }
