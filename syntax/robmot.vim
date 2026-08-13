@@ -17,11 +17,12 @@ syntax match   motionSpecModifier /@disable/
 syntax keyword motionSpecSlot context description world pre spec post
 syntax keyword motionSpecSlot when while until handles runs-in
 syntax keyword motionSpecSlot monitors controllers solvers satisfied violated
-syntax keyword motionSpecSlot publishers subscribers action-clients action-servers
+syntax keyword motionSpecSlot publishers subscribers action-clients action-servers always
 syntax keyword motionSpecSlot type name platform config timestep runs-scene
 syntax keyword motionSpecSlot agent algorithm configuration quantity gravity
 syntax keyword motionSpecSlot constraint measured-derivative measured-velocity
-syntax keyword motionSpecSlot output-saturation integral-saturation
+syntax keyword motionSpecSlot output-saturation integral-saturation error-normalization
+syntax keyword motionSpecSlot normalization
 syntax keyword motionSpecSlot max lower upper mass damping stiffness
 syntax keyword motionSpecSlot max-velocity max-acceleration max-jerk shape
 syntax keyword motionSpecSlot start end goal center axes angles xyzw
@@ -51,12 +52,13 @@ syntax keyword motionSpecConstant force-composition force-distribution
 syntax keyword motionSpecConstant KinovaGen3 KinovaGen3-2F85 Robotiq2F85 RobotiqFT300s
 syntax keyword motionSpecConstant succeeded aborted canceled
 syntax keyword motionSpecConstant xyz xzy yxz yzx zxy zyx
+syntax keyword motionSpecConstant pi
 
 " Relation, view and action words
 syntax keyword motionSpecOperator keeping equal to greater more less than is
 syntax keyword motionSpecOperator larger smaller up away from between outside
 syntax keyword motionSpecOperator and within distance elapsed progress moving
-syntax keyword motionSpecOperator along at on in by snapshot rotated using
+syntax keyword motionSpecOperator along at on in by with snapshot rotated using
 syntax keyword motionSpecOperator as via apply for realized produce detect monitor
 syntax keyword motionSpecOperator trigger hold flag publish event topic message
 syntax keyword motionSpecOperator action saturation limits observes
@@ -78,7 +80,7 @@ syntax match motionSpecDeclName /\<[A-Za-z_][A-Za-z0-9_-]*\ze\s*:/
 
 syntax match motionSpecNumber /\<[-+]\?\(\d\+\(\.\d*\)\?\|\.\d\+\)\([eE][-+]\?\d\+\)\?/
   \ nextgroup=motionSpecUnit skipwhite
-syntax match motionSpecUnit /\v(rad\/s\^2|deg\/s\^2|m\/s\^2|m\/s\^3|rad\/s|deg\/s|m\/s|cm\/s|mm|cm|m|rad|deg|Nm|N|ms|s)>/ contained
+syntax match motionSpecUnit /\v(rad\/s\^2|deg\/s\^2|m\/s\^2|m\/s\^3|rad\/s|deg\/s|m\/s|cm\/s|mm|cm|m|rad|deg|Nm|N|ms|s|Hz)>/ contained
 
 syntax region motionSpecString start=/"/ skip=/\\./ end=/"/ oneline
 syntax match motionSpecComment /\/\/.*/ contains=@Spell

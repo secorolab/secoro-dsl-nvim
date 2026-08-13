@@ -27,7 +27,7 @@ BLOCK_PATTERNS = (
     re.compile(
         r"^\s*(?P<kw>context|exec-context|tolerances|ros|guarded-motion|constraint-handler"
         r"|world|pre|spec|post|when|while|until|monitors|controllers|solvers"
-        r"|publishers|action-clients|action-servers)\b"
+        r"|publishers|action-clients|action-servers|always)\b"
         r"(?:\s*\(\s*ns\s*=\s*[\w.-]+\s*\))?"
         r"(?:\s+(?:any|all))?"
         r"(?:\s+(?P<name>[A-Za-z_][\w-]*))?"
@@ -64,6 +64,7 @@ BLOCK_KIND = {
     "publishers": types.SymbolKind.Package,
     "action-clients": types.SymbolKind.Package,
     "action-servers": types.SymbolKind.Package,
+    "always": types.SymbolKind.Package,
     "monitor": types.SymbolKind.Method,
     "pid": types.SymbolKind.Method,
     "impedance": types.SymbolKind.Method,
@@ -83,13 +84,15 @@ HOVER_DOCS: dict[str, str] = {
     "exec-context": "**exec-context** `(ns=<prefix>) <name> { runs-scene, platform, [config], timestep }`\n\nBinds the imported scene to a platform and a control timestep.",
     "context": "**context** `(ns=<prefix>) <name> { world {...}, pre/spec/post {...} }`\n\nShared quantity declarations that motions reference; inside a motion or handler it introduces the local context block.",
     "tolerances": "**tolerances** `{ <quantity-kind>: <band>, ... }`\n\nModel-wide satisfaction bands. A constraint without `within` uses the band declared for the kind its error carries.",
-    "ros": "**ros** `(ns=<prefix>) { publishers, subscribers, action-clients, action-servers }`\n\nROS channels the model publishes to, listens on, and the actions it calls or serves.",
+    "ros": "**ros** `(ns=<prefix>) { publishers, subscribers, action-clients, action-servers, always }`\n\nROS channels the model publishes to, listens on, and the actions it calls or serves.",
+    "always": "**always** `{ publish at <r> Hz to <topic> with <quantity> [{ <field>: <quantity>.<selector> }] }`\n\nPublishers that run for the whole run. The message reports the quantity whole; a listed field overrides what that one carries.",
     "subscribers": '**subscribers** `{ <name>: topic "<channel>" message "<type>" { observes { <target>, ... } <field> from <container> } }`\n\nA topic the model reads: which scene elements the message reports on, and which of its fields carries their pose.',
     "observes": "**observes** `{ <target>, ... }`\n\nThe scene elements a subscription's messages report on.",
     "guarded-motion": "**guarded-motion** `(ns=<prefix>) <name> { description, context, [detects], when/while/until }`\n\nA motion with its activation, maintenance and termination constraints.",
     "constraint-handler": "**constraint-handler** `(ns=<prefix>) <name> { [context], handles, [runs-in], [monitors], controllers, solvers }`\n\nThe control-side assembly for one guarded motion.",
     # sections
     "world": "**world** `{ <type> <name> { of:, wrt:, as-seen-by: } , ... }`\n\nMeasured quantities: what the robot senses about the scene.",
+    "normalization": "**normalization** `: (<lower>, <upper>) rad|deg`\n\nThe interval a joint-position reading is taken into. A bound may be written `pi`, `-pi` or `2*pi`. A value outside is moved onto the interval by whole turns, not clamped -- that is what a joint limit does.",
     "pre": "**pre** `{ ... }`\n\nQuantities established before the motion runs.",
     "spec": "**spec** `{ ... }`\n\nQuantities the motion's own constraints reference.",
     "post": "**post** `{ ... }`\n\nQuantities that only matter after the motion.",
@@ -117,7 +120,8 @@ HOVER_DOCS: dict[str, str] = {
     "within": "**within** `<band>`\n\nSatisfaction band for this constraint; defaults to the `tolerances` entry for its kind.",
     "@disable": "**@disable**\n\nKeeps the constraint in the model but takes it out of the generated assembly.",
     # controllers and solvers
-    "pid": "**pid** `<name> { constraint: <c>, [profile:], [measured-derivative:], [output-saturation:], [integral-saturation:], Kp:, Ki:, Kd:, [decay:] }`",
+    "pid": "**pid** `<name> { constraint: <c>, [profile:], [measured-derivative:], [output-saturation:], [integral-saturation:], Kp:, Ki:, Kd:, [decay:], [error-normalization:] }`",
+    "error-normalization": "**error-normalization** `: (<lower>, <upper>) rad|deg`\n\nThe interval this controller's error wraps into, so an angular error takes the short way round.",
     "impedance": "**impedance** `<name> { constraint: <c>, [output-saturation:], [Ki:], stiffness:, damping: }`",
     "feed-forward": "**feed-forward** `<name> { constraint: <c>, [output-saturation:] }`\n\nPasses the constraint's reference straight through as a command.",
     "serial-chain": "**serial-chain** `{ agent: <a>, [algorithm: achd|rne], [limits {...}], [gravity: ...] }`",
@@ -149,7 +153,8 @@ HOVER_DOCS: dict[str, str] = {
 KEYWORDS = [
     "import", "ns", "context", "exec-context", "tolerances", "ros", "guarded-motion",
     "constraint-handler", "description", "publishers", "subscribers", "action-clients",
-    "action-servers", "observes", "topic", "message", "from", "world", "pre", "spec", "post",
+    "action-servers", "always", "observes", "topic", "message", "from", "with", "world",
+    "normalization", "error-normalization", "pre", "spec", "post",
     "when", "while", "until", "any", "all", "handles", "runs-in", "monitors", "controllers",
     "solvers", "path", "detect", "keeping", "equal", "to", "greater", "less", "more", "than",
     "between", "outside", "within", "distance", "elapsed", "progress", "moving", "along", "at",
@@ -173,6 +178,6 @@ TYPES = [
 # fmt: off
 UNITS = [
     "mm", "cm", "m", "rad", "deg", "m/s", "cm/s", "rad/s", "deg/s", "m/s^2", "rad/s^2",
-    "m/s^3", "N", "Nm", "s", "ms"
+    "m/s^3", "N", "Nm", "s", "ms", "Hz"
 ]
 # fmt: on

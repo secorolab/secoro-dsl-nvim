@@ -24,6 +24,12 @@ ros (ns=app) {
             on-end: { result.trinary.value: TRUE },
         },
     },
+    always {
+        publish at 100.0 Hz to <ros.publishers.events> with <shared.world.ft>,
+        publish at 50.0 Hz to <ros.publishers.events> with <shared.world.ee> {
+            pose.position.z: <shared.world.ee>.position.z
+        },
+    },
 }
 
 exec-context (ns=app) cov-exec {
@@ -39,7 +45,7 @@ context (ns=app) shared {
     world {
         pose ee { of: <a.b>, wrt: <c>, as-seen-by: <c> },
         wrench ft { ref-point: <s>, as-seen-by: <c>, ft-sensor: <wrist_ft> },
-        joint-position jp { joint: <arm.j1> }
+        joint-position jp { joint: <arm.j1>, normalization: (-pi, 2*pi) rad }
     },
     pre {
         duration budget = 5.0 s
@@ -180,7 +186,8 @@ constraint-handler (ns=app) cover-handler {
             measured-derivative: <shared.world.ee>.linvel,
             output-saturation: saturation { max: <shared.spec.fmax> },
             integral-saturation: saturation { lower: <shared.spec.band>, upper: <shared.spec.fmax> },
-            Kp: 200, Ki: 100, Kd: 40, decay: 0
+            Kp: 200, Ki: 100, Kd: 40, decay: 0,
+            error-normalization: (-3.1416, 3.1416) rad
         } as force apply at <arm.link> via <cover-handler.arm>,
         impedance c2 { <cover.lat>, Ki: 1, stiffness: 800, damping: 80 },
         feed-forward c3 { constraint: <cover.adv> },

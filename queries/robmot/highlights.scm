@@ -51,6 +51,7 @@
 "subscribers" @label
 "action-clients" @label
 "action-servers" @label
+"always" @label
 
 "type" @label
 "name" @label
@@ -69,6 +70,7 @@
 "measured-velocity" @label
 "output-saturation" @label
 "integral-saturation" @label
+"error-normalization" @label
 "max" @label
 "lower" @label
 "upper" @label
@@ -158,6 +160,7 @@
 "action" @keyword.operator
 "observes" @keyword.operator
 "from" @keyword.operator
+"with" @keyword.operator
 "saturation" @keyword.operator
 "limits" @keyword.operator
 
@@ -204,6 +207,7 @@
 (context_scope) @constant
 (ros_field_assign value: (name) @constant)
 (publish_action value: (name) @constant)
+(pi_term) @constant
 
 ; ------------------------------------------------------------- declared names
 
@@ -248,6 +252,7 @@
 (ref path: (fqn) @variable.member)
 (bracket_ref path: (fqn) @variable.member)
 (ros_field_assign path: (fqn) @variable.member)
+(ros_measurement_assign path: (fqn) @variable.member)
 ; The selector on a reference is its own role: <q> is the thing, .linvel.z is
 ; the slice of it being constrained.
 (selector_tail (subspace) @variable.parameter)

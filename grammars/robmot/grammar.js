@@ -57,7 +57,13 @@ module.exports = grammar({
     ros: ($) => seq("ros", $._ns_header, "{", repeat($._ros_section), "}"),
 
     _ros_section: ($) =>
-      choice($.publishers, $.subscribers, $.action_clients, $.action_servers),
+      choice(
+        $.publishers,
+        $.subscribers,
+        $.action_clients,
+        $.action_servers,
+        $.standing_publishers,
+      ),
 
     publishers: ($) =>
       seq("publishers", "{", optList($.ros_topic_decl), "}", optional(",")),
@@ -70,6 +76,25 @@ module.exports = grammar({
 
     action_servers: ($) =>
       seq("action-servers", "{", optList($.ros_action_server_decl), "}", optional(",")),
+
+    standing_publishers: ($) =>
+      seq("always", "{", optList($.ros_standing_pub), "}", optional(",")),
+
+    // A publisher that runs for the whole run: an already-declared topic, the
+    // quantity its message reports, and any field mapped somewhere else.
+    ros_standing_pub: ($) =>
+      seq(
+        "publish", "at", field("rate", $.measure),
+        "to", field("topic", $.ref),
+        "with", field("quantity", $.ref),
+        optional(seq("{", optList($.ros_measurement_assign), "}")),
+      ),
+
+    ros_measurement_assign: ($) =>
+      seq(
+        field("path", $.fqn), ":",
+        field("quantity", $.ref), field("selector", $.selector_tail),
+      ),
 
     ros_topic_decl: ($) =>
       seq(
@@ -263,10 +288,22 @@ module.exports = grammar({
     geometric_props: ($) => list($.geo_prop_pair),
 
     geo_prop_pair: ($) =>
-      seq(field("key", $.geo_prop_key), ":", field("value", $.ref)),
+      seq(field("key", $.geo_prop_key), ":", field("value", choice($.ref, $.angle_range))),
 
     geo_prop_key: (_) =>
-      choice("of", "wrt", "ref-point", "as-seen-by", "joint", "ft-sensor"),
+      choice("of", "wrt", "ref-point", "as-seen-by", "joint", "ft-sensor", "normalization"),
+
+    // The interval an angle is read or wrapped into. A bound is a number or a
+    // multiple of pi, so a turn is written as what it is.
+    angle_range: ($) =>
+      seq(
+        "(", field("lower", $._angle_bound), ",", field("upper", $._angle_bound), ")",
+        field("unit", $.unit),
+      ),
+
+    _angle_bound: ($) => choice($.pi_term, $.number),
+
+    pi_term: ($) => seq(optional("-"), optional(seq($.number, "*")), "pi"),
 
     context_path: ($) =>
       seq("path", field("name", $.name), "=", field("value", $._path_spec)),
@@ -309,13 +346,12 @@ module.exports = grammar({
 
     scalar_quantity_type: (_) =>
       choice(
+        "length",
         "distance",
         "angle",
         "dimensionless",
         "duration",
         "path-parameter",
-        "linear-distance",
-        "angular-distance",
       ),
 
     _quantity_type: ($) => choice($.geometry_quantity_type, $.scalar_quantity_type),
@@ -685,6 +721,7 @@ module.exports = grammar({
         seq("measured-derivative", ":", field("measured_derivative", $._view)),
         seq("output-saturation", ":", field("output_saturation", $.saturation_spec)),
         seq("integral-saturation", ":", field("integral_saturation", $.saturation_spec)),
+        seq("error-normalization", ":", field("error_normalization", $.angle_range)),
         $.gain_param,
       ),
 
@@ -787,7 +824,7 @@ module.exports = grammar({
         prec(1, choice(
           "rad/s^2", "deg/s^2", "m/s^2", "m/s^3",
           "rad/s", "deg/s", "m/s", "cm/s",
-          "mm", "cm", "m", "rad", "deg", "Nm", "N", "ms", "s",
+          "mm", "cm", "m", "rad", "deg", "Nm", "N", "ms", "s", "Hz",
         )),
       ),
   },
