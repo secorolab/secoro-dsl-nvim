@@ -73,6 +73,7 @@ distrib (ns=cov) cov_rot { uniform-rotation }
 
 // A template: no namespace, so it is a device rather than any particular one.
 ktree cov_template {
+    root: <cov_base.cov_base_origin>
     body cov_base {
         frame cov_base_origin { }
         frame cov_base_com {
@@ -138,6 +139,7 @@ ktree inst (ns=cov) cov_arm1 of <cov_template>
 ktree inst (ns=cov_alt) cov_arm2 of <cov_template>
 
 ktree (ns=cov) cov_assembly {
+    root: <cov_arm1.cov_base.cov_base_origin>
     tree <cov_arm1>
     tree <cov_arm2>
     joints {
@@ -158,6 +160,7 @@ scene inst (ns=cov) cov_inst {
     scene: <cov_scene>
 
     kgraph (ns=cov) cov_graph {
+        anchor: <cov_world.cov_world_root>
         tree <cov_assembly>
         body cov_world { frame cov_world_root { } }
         body cov_table_body {

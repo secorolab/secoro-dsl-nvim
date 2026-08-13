@@ -105,7 +105,7 @@ context (ns=app) shared {
 }
 
 tolerances {
-    linear-distance: 0.01 m,
+    position: 0.01 m,
     orientation: 0.01 rad
 }
 
