@@ -45,7 +45,7 @@ context (ns=app) shared {
         duration budget = 5.0 s
     },
     spec {
-        linear-distance band = 0.01 m,
+        length band = 0.01 m,
         force fmax = 10.0 N,
         direction normal { as-seen-by: <c> } = (1.0, 0.0, 0.0),
         velocity-twist tw = {
@@ -116,7 +116,7 @@ guarded-motion (ns=app) cover {
         <shared.spec>,
         spec {
             pose here = snapshot of <shared.world.ee> on event <app.E_ENTER>,
-            linear-distance shifted = <shared.spec.band> + [shared.spec.band]
+            length shifted = <shared.spec.band> + [shared.spec.band]
         }
     }
 
@@ -126,7 +126,7 @@ guarded-motion (ns=app) cover {
         near: distance between <shared.world.ee> and <shared.spec.turned> less than [shared.spec.band],
         slow: <shared.world.ee>.linvel.z is smaller than 0.05 m/s,
         far:  <shared.world.ee>.position away from <shared.spec.turned>,
-        big:  <shared.world.ee>.position.x is larger than spec[linear-distance inline = 0.2 m]
+        big:  <shared.world.ee>.position.x is larger than spec[length inline = 0.2 m]
     }
 
     while {
@@ -152,7 +152,7 @@ guarded-motion (ns=app) cover {
 constraint-handler (ns=app) cover-handler {
     context {
         <shared.spec>,
-        spec { linear-distance local-band = 0.02 m }
+        spec { length local-band = 0.02 m }
     }
 
     handles: <cover>

@@ -36,7 +36,7 @@ syntax keyword motionSpecType acceleration-twist angular-velocity linear-velocit
 syntax keyword motionSpecType linear-acceleration angular-acceleration linear-jerk
 syntax keyword motionSpecType force torque direction free-vector joint-position
 syntax keyword motionSpecType distance angle dimensionless duration path-parameter
-syntax keyword motionSpecType linear-distance angular-distance path
+syntax keyword motionSpecType length path
 syntax keyword motionSpecType velocity-profile admittance profile
 syntax keyword motionSpecType pid impedance feed-forward
 syntax keyword motionSpecType serial-chain mobile-platform command-forwarding

@@ -166,8 +166,7 @@ TYPES = [
     "pose", "position", "orientation", "velocity-twist", "acceleration-twist", "wrench",
     "angular-velocity", "linear-velocity", "linear-acceleration", "angular-acceleration",
     "linear-jerk", "force", "torque", "direction", "free-vector", "joint-position", "distance",
-    "angle", "dimensionless", "duration", "path-parameter", "linear-distance",
-    "angular-distance"
+    "angle", "dimensionless", "duration", "path-parameter", "length"
 ]
 # fmt: on
 
