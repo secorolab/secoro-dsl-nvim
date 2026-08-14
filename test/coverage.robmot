@@ -3,10 +3,10 @@
 import "cov.fsm"
 import "cov.scenex"
 
-ns cov = "https://example.org/models/coverage/"
+ns app = "https://example.org/models/coverage/"
 ns cov_fsm = 'https://example.org/models/coverage/fsm/'
 
-exec-context (ns=cov) cov_exec {
+exec-context (ns=app) cov_exec {
     runs-scene: <cov_scene>
     platform:   real-world {
         <agents.arm> realized by KinovaGen3-2F85,
@@ -16,7 +16,7 @@ exec-context (ns=cov) cov_exec {
     timestep:   1.0 ms
 }
 
-context (ns=cov) shared {
+context (ns=app) shared {
     world {
         pose ee {
             of: <gripper.pinch>, wrt: <arm.base>, as-seen-by: <arm.base>
@@ -33,6 +33,14 @@ context (ns=cov) shared {
     spec {
         length band = 0.01 m,
         angle band-rot = 0.01 rad,
+        linear-velocity creep = 0.02 m/s,
+        admittance adm = {
+            force: <shared.world.ft>.force.z,
+            mass: 1.0,
+            damping: 20.0,
+            stiffness: 0.0,
+            max-velocity: 0.1 m/s
+        },
         // A pose the deployment states: `[config.<key>]` looks into robot.toml, and `for`
         // takes the frames from the quantity it is a value for.
         pose parked = [config.poses.home] for <shared.world.ee>,
@@ -45,14 +53,14 @@ tolerances {
     orientation: 0.01 rad
 }
 
-guarded-motion (ns=cov) reach {
+guarded-motion (ns=app) cover {
     description: "Every value shape the grammar allows"
 
     context {
         spec {
             length lift = 0.2 m,
             length shifted = <shared.spec.band> + <spec.lift>,
-            pose sampled = snapshot of <shared.world.ee> on event <cov_fsm.E_TRIGGER>,
+            pose here = snapshot of <shared.world.ee> on event <cov_fsm.E_TRIGGER>,
             pose built = {
                 position: (0.1, 0.2, 0.3) m,
                 orientation: quat { xyzw: (0.0, 0.0, 0.0, 1.0) }
@@ -67,9 +75,9 @@ guarded-motion (ns=cov) reach {
                 angular-velocity: (0.0, 0.0, 0.0) rad/s,
                 linear-velocity: (0.1, 0.0, 0.0) m/s
             },
-            path arc-path = arc {
-                start: <spec.built>, end: <spec.turned>,
-                amplitude: <spec.lift>, plane-normal: <spec.glide>
+            path road = lerp {
+                start: <spec.built>,
+                goal:  <spec.turned>
             }
         }
     }
@@ -79,10 +87,10 @@ guarded-motion (ns=cov) reach {
     }
 
     while {
-        park:  keeping <shared.world.ee>.position    equal to <shared.spec.parked>.position within <shared.spec.band>,
-        aim:   keeping <shared.world.ee>.orientation equal to <shared.spec.staged>.orientation within <shared.spec.band-rot>,
-        press: keeping <shared.world.ft>.force.z     equal to <spec.push> within <shared.spec.band>,
-        span:  <shared.world.ee>.position.x between <shared.spec.band> and <spec.lift>
+        tan:  moving <shared.world.ee> along <spec.road> at <shared.spec.creep>,
+        park: keeping <shared.world.ee>.position    equal to <shared.spec.parked>.position within <shared.spec.band>,
+        aim:  keeping <shared.world.ee>.orientation equal to <shared.spec.staged>.orientation within <shared.spec.band-rot>,
+        span: <shared.world.ee>.position.x between <shared.spec.band> and <spec.lift>
     }
 
     until any {
@@ -90,23 +98,24 @@ guarded-motion (ns=cov) reach {
     }
 }
 
-constraint-handler (ns=cov) reach-handler {
-    handles: <reach>
+constraint-handler (ns=app) cover-handler {
+    handles: <cover>
+
     monitors {
-        settled: monitor <reach.until> {
+        m1: monitor <cover.until> {
             satisfied for 0.2 s { trigger: event <cov_fsm.E_DONE> },
-            violated { hold: <reach> },
+            violated { hold: <cover> },
         }
     }
 
     controllers {
-        pid ctrl-park { constraint: <reach.park>, Kp: 200, Ki: 100, Kd: 40, decay: 0 },
-        impedance ctrl-press { constraint: <reach.press>, stiffness: 800, damping: 80 }
+        pid ctrl-park { constraint: <cover.park>, Kp: 200, Ki: 100, Kd: 40, decay: 0 },
+        impedance ctrl-tan { constraint: <cover.tan>, stiffness: 800, damping: 80 }
             apply at <arm.elbow>
     }
 
     solvers {
-        arm-solver: serial-chain {
+        arm: serial-chain {
             agent: <agents.arm>,
             algorithm: achd,
             gravity: (0.0, 0.0, 9.81) m/s^2
