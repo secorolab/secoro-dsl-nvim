@@ -36,4 +36,3 @@
 (ros_action_server_decl name: (name) @local.definition.field)
 
 (ref path: (fqn) @local.reference)
-(bracket_ref path: (fqn) @local.reference)

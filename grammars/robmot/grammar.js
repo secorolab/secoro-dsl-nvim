@@ -365,17 +365,26 @@ module.exports = grammar({
         $.velocity_twist_value,
         $.acceleration_twist_value,
         $.wrench_value,
+        $.config_value,
         $.reference_value,
       ),
 
     scalar_value: ($) => seq("=", $.measure),
+
+    // A pose the deployment states: `[config.<key>]` is a lookup into robot.toml, kept out of
+    // `<>` because that names something declared in the model.
+    config_value: ($) =>
+      seq(
+        "=", "[", "config", ".", field("key", $.fqn), "]",
+        "for", field("source", $._view),
+      ),
 
     vector_value: ($) => seq("=", $.coordinates, optional(field("unit", $.unit))),
 
     reference_value: ($) =>
       seq(
         "=",
-        field("source", choice($.qualified_ref, $.bracket_ref, $.inline_ref)),
+        field("source", $.qualified_ref),
         optional(seq("+", field("offset", $._context_ref))),
       ),
 
@@ -559,18 +568,10 @@ module.exports = grammar({
     outside_constraint: ($) =>
       seq("outside", field("lower", $._context_ref), "and", field("upper", $._context_ref)),
 
-    // References to context quantities, in the four textX ContextRef shapes.
-    _context_ref: ($) => choice($.qualified_ref, $.bracket_ref, $.inline_ref, $.measure),
+    // References to context quantities, in the two textX ContextRef shapes.
+    _context_ref: ($) => choice($.qualified_ref, $.measure),
 
     qualified_ref: ($) => seq($.ref, optional($.selector_tail)),
-
-    bracket_ref: ($) =>
-      seq("[", field("path", $.fqn), optional(choice($.scalar_value, $.vector_value)), "]"),
-
-    inline_ref: ($) =>
-      seq(field("scope", $.context_scope), "[", $.context_quantity, "]"),
-
-    context_scope: (_) => choice("pre", "spec", "post"),
 
     measure: ($) => seq(field("value", $.number), field("unit", $.unit)),
 

@@ -1,112 +1,42 @@
-// Constructs the workspace models do not exercise, kept parseable by ./check.sh.
-import "coverage.fsm"
-import "coverage.scenex"
-ns app = "https://example.org/coverage/"
+// Constructs the workspace models do not use, so `check.sh` still parses them.
+// Semantically this is nonsense on purpose: only the grammar is under test.
+import "cov.fsm"
+import "cov.scenex"
 
-ros (ns=app) {
-    publishers {
-        events: topic "/events" message "std_msgs/msg/String",
-    },
-    subscribers {
-        object-poses: topic "/perception/objects" message "vision_msgs/msg/Detection3DArray" {
-            observes { <world-tree.cube>, <world-tree.cube2> }
-            pose from results
-        },
-    },
-    action-clients {
-        locate: action "/locate" type "pkg/action/Locate" {
-            pose from results
-        },
-    },
-    action-servers {
-        run: action "run" type "pkg/action/Behaviour" {
-            on-goal: produce event <app.E_GOAL>,
-            on-end: { result.trinary.value: TRUE },
-        },
-    },
-    always {
-        publish at 100.0 Hz to <ros.publishers.events> with <shared.world.ft>,
-        publish at 50.0 Hz to <ros.publishers.events> with <shared.world.ee> {
-            pose.position.z: <shared.world.ee>.position.z
-        },
-    },
-}
+ns cov = "https://example.org/models/coverage/"
+ns cov_fsm = 'https://example.org/models/coverage/fsm/'
 
-exec-context (ns=app) cov-exec {
-    runs-scene: <scene>
+exec-context (ns=cov) cov_exec {
+    runs-scene: <cov_scene>
     platform:   real-world {
-        <agents.arm1> realized by KinovaGen3-2F85,
-        <wrist_ft> realized by RobotiqFT300s
+        <agents.arm> realized by KinovaGen3-2F85,
+        <arm.wrist_ft> realized by RobotiqFT300s
     }
+    config:     "robot.toml"
     timestep:   1.0 ms
 }
 
-context (ns=app) shared {
+context (ns=cov) shared {
     world {
-        pose ee { of: <a.b>, wrt: <c>, as-seen-by: <c> },
-        wrench ft { ref-point: <s>, as-seen-by: <c>, ft-sensor: <wrist_ft> },
-        joint-position jp { joint: <arm.j1>, normalization: (-pi, 2*pi) rad }
-    },
-    pre {
-        duration budget = 5.0 s
-    },
-    spec {
-        distance band = 0.01 m,
-        force fmax = 10.0 N,
-        direction normal { as-seen-by: <c> } = (1.0, 0.0, 0.0),
-        velocity-twist tw = {
-            angular-velocity: (0.0, 0.0, 0.1) rad/s,
-            linear-velocity: (0.1, 0.0, 0.0) m/s
+        pose ee {
+            of: <gripper.pinch>, wrt: <arm.base>, as-seen-by: <arm.base>
         },
-        acceleration-twist acc = {
-            angular-acceleration: (0.0, 0.0, 0.1) rad/s^2,
-            linear-acceleration: (0.1, 0.0, 0.0) m/s^2
+        wrench ft {
+            of: <arm.wrist>, wrt: <arm.base>, as-seen-by: <arm.base>,
+            ft-sensor: <arm.wrist_ft>
         },
-        wrench w = {
-            torque: (0.0, 0.0, 0.1) Nm,
-            force: (1.0, 0.0, 0.0) N
-        },
-        pose turned = {
-            position: <shared.spec.band>,
-            orientation: <shared.spec.tw> rotated in <c> by quat { xyzw: (0.0, 0.0, 0.0, 1.0) }
-        },
-        pose dc = {
-            position: (0.0, 0.0, 0.0) m,
-            orientation: direction-cosine { x: (1.0, 0.0, 0.0), y: (0.0, 1.0, 0.0), z: (0.0, 0.0, 1.0) }
-        },
-        velocity-profile prof = profile {
-            max-velocity: <shared.spec.band>,
-            max-acceleration: <shared.spec.band>,
-            shape: trapezoidal
-        },
-        admittance adm = {
-            force: <shared.world.ft>.force.x,
-            mass: 2.0,
-            damping: 30.0,
-            stiffness: 0.0,
-            max-velocity: 0.3 m/s
-        },
-        path p-circle = circle {
-            start: <shared.spec.turned>,
-            center: <shared.spec.turned>,
-            plane-normal: <shared.spec.normal>
-        },
-        path p-helix = helix {
-            start: <shared.spec.turned>,
-            center: <shared.spec.turned>,
-            axis: <shared.spec.normal>,
-            pitch: <shared.spec.band>,
-            revolutions: 3.0 rad
-        },
-        path p-eight = figure8 {
-            anchor: <shared.spec.turned>,
-            radius: <shared.spec.band>,
-            plane-normal: <shared.spec.normal>,
-            form: bernoulli
+        joint-position elbow {
+            joint: <arm.elbow_joint>,
+            normalization: (-pi, pi) rad
         }
     },
-    post {
-        angle done = 0.0 rad
+    spec {
+        length band = 0.01 m,
+        angle band-rot = 0.01 rad,
+        // A pose the deployment states: `[config.<key>]` looks into robot.toml, and `for`
+        // takes the frames from the quantity it is a value for.
+        pose parked = [config.poses.home] for <shared.world.ee>,
+        pose staged = [config.cell.stations.handover] for <shared.world.ee>
     }
 }
 
@@ -115,99 +45,71 @@ tolerances {
     orientation: 0.01 rad
 }
 
-guarded-motion (ns=app) cover {
-    description: "every relation and view form"
+guarded-motion (ns=cov) reach {
+    description: "Every value shape the grammar allows"
 
     context {
-        <shared.spec>,
         spec {
-            pose here = snapshot of <shared.world.ee> on event <app.E_ENTER>,
-            length shifted = <shared.spec.band> + [shared.spec.band]
+            length lift = 0.2 m,
+            length shifted = <shared.spec.band> + <spec.lift>,
+            pose sampled = snapshot of <shared.world.ee> on event <cov_fsm.E_TRIGGER>,
+            pose built = {
+                position: (0.1, 0.2, 0.3) m,
+                orientation: quat { xyzw: (0.0, 0.0, 0.0, 1.0) }
+            },
+            pose turned = {
+                position: <spec.built>,
+                orientation: <spec.built> rotated in <arm.base> by
+                    euler { axes: zyx extrinsic, angles: (0.0, 0.0, 1.57) rad }
+            },
+            wrench push = { torque: (0.0, 0.0, 0.0) Nm, force: (0.0, 0.0, 5.0) N },
+            velocity-twist glide = {
+                angular-velocity: (0.0, 0.0, 0.0) rad/s,
+                linear-velocity: (0.1, 0.0, 0.0) m/s
+            },
+            path arc-path = arc {
+                start: <spec.built>, end: <spec.turned>,
+                amplitude: <spec.lift>, plane-normal: <spec.glide>
+            }
         }
     }
 
-    find-it: detect { <scene.cube> } using <ros.action-clients.locate>
-
-    when any {
-        near: distance between <shared.world.ee> and <shared.spec.turned> less than [shared.spec.band],
-        slow: <shared.world.ee>.linvel.z is smaller than 0.05 m/s,
-        far:  <shared.world.ee>.position away from <shared.spec.turned>,
-        big:  <shared.world.ee>.position.x is larger than spec[length inline = 0.2 m]
+    when {
+        ready: <shared.world.elbow> outside <shared.spec.band> and <spec.lift>
     }
 
     while {
-        @disable off:  keeping <shared.world.ee>.position.x equal to <shared.spec.band>,
-        tan:  moving <shared.world.ee> along <shared.spec.p-circle> at <shared.spec.band>,
-        lat:  keeping <shared.world.ee>.position on <shared.spec.p-circle> within <shared.spec.band>,
-        adv:  progress of <shared.world.ee> along <shared.spec.p-circle> more than <shared.spec.band>,
-        outof: <shared.world.ft>.force.x outside <shared.spec.fmax> and <shared.spec.fmax>,
-        cap:  <shared.world.ft>.force.y up to <shared.spec.fmax>
+        park:  keeping <shared.world.ee>.position    equal to <shared.spec.parked>.position within <shared.spec.band>,
+        aim:   keeping <shared.world.ee>.orientation equal to <shared.spec.staged>.orientation within <shared.spec.band-rot>,
+        press: keeping <shared.world.ft>.force.z     equal to <spec.push> within <shared.spec.band>,
+        span:  <shared.world.ee>.position.x between <shared.spec.band> and <spec.lift>
     }
 
     until any {
-        located: <find-it>.status equal to succeeded,
-        trouble any {
-            lost: <find-it>.status equal to aborted,
-            gone: <find-it>.status equal to canceled,
-            hung: elapsed greater than 10.0 s
-        },
-        settled: <shared.world.ee>.position.z between <shared.spec.band> and <shared.spec.fmax>
+        far: distance between <shared.world.ee> and <shared.spec.parked> greater than <spec.lift>
     }
 }
 
-constraint-handler (ns=app) cover-handler {
-    context {
-        <shared.spec>,
-        spec { length local-band = 0.02 m }
-    }
-
-    handles: <cover>
-    runs-in: <app.S_COVER>
-
+constraint-handler (ns=cov) reach-handler {
+    handles: <reach>
     monitors {
-        m1: monitor <cover.until> {
-            satisfied for 0.3 s {
-                trigger: event <app.E_DONE>,
-                publish: event to <ros.publishers.events>,
-                flag: covering
-            },
-            violated {
-                hold: <cover>,
-                publish: to <ros.publishers.events> { trinary.value: FALSE },
-                publish: TRUE to <ros.publishers.events>
-            },
+        settled: monitor <reach.until> {
+            satisfied for 0.2 s { trigger: event <cov_fsm.E_DONE> },
+            violated { hold: <reach> },
         }
     }
 
     controllers {
-        pid c1 {
-            constraint: <cover.tan>,
-            profile: <shared.spec.prof>,
-            measured-derivative: <shared.world.ee>.linvel,
-            output-saturation: saturation { max: <shared.spec.fmax> },
-            integral-saturation: saturation { lower: <shared.spec.band>, upper: <shared.spec.fmax> },
-            Kp: 200, Ki: 100, Kd: 40, decay: 0,
-            error-normalization: (-3.1416, 3.1416) rad
-        } as force apply at <arm.link> via <cover-handler.arm>,
-        impedance c2 { <cover.lat>, Ki: 1, stiffness: 800, damping: 80 },
-        feed-forward c3 { constraint: <cover.adv> },
-        <other-handler.c9>
+        pid ctrl-park { constraint: <reach.park>, Kp: 200, Ki: 100, Kd: 40, decay: 0 },
+        impedance ctrl-press { constraint: <reach.press>, stiffness: 800, damping: 80 }
+            apply at <arm.elbow>
     }
 
     solvers {
-        arm: serial-chain {
-            agent: <agents.arm1>,
-            algorithm: rne,
-            limits { torque: saturation { max: <shared.spec.fmax> } },
+        arm-solver: serial-chain {
+            agent: <agents.arm>,
+            algorithm: achd,
             gravity: (0.0, 0.0, 9.81) m/s^2
-        },
-        wheels: mobile-platform {
-            agent: <agents.base1>,
-            algorithm: force-distribution,
-            configuration: "hddc2b_example",
-            quantity: <shared.spec.w>
-        },
-        grip: command-forwarding { agent: <agents.gripper1> },
-        <other-handler.arm>
+        }
     }
 }

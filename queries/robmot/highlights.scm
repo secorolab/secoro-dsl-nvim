@@ -10,7 +10,7 @@
 ;   @constant         literal values: numbers, units, and closed-vocabulary
 ;                      words (`achd`, `succeeded`, `KinovaGen3`)
 ;   @variable          every name this file declares
-;   @variable.member   every reference to one, inside <> or []
+;   @variable.member   every reference to one, inside <>
 ;   @variable.parameter the selector slicing a reference (`.linvel.z`)
 ;   @string            strings
 ;
@@ -56,7 +56,7 @@
 "type" @label
 "name" @label
 "platform" @label
-"config" @label
+(exec_context "config" @label)
 "timestep" @label
 "runs-scene" @label
 "agent" @label
@@ -204,7 +204,6 @@
 (figure8_form) @constant
 (euler_axes) @constant
 (goal_status) @constant
-(context_scope) @constant
 (ros_field_assign value: (name) @constant)
 (publish_action value: (name) @constant)
 (pi_term) @constant
@@ -249,8 +248,11 @@
 
 "<" @punctuation.special
 ">" @punctuation.special
+; A config lookup is not a model reference: the key names a robot.toml section,
+; so it reads as a string of the deployment rather than a declared quantity.
+(config_value "config" @keyword.operator)
+(config_value key: (fqn) @string.special.path)
 (ref path: (fqn) @variable.member)
-(bracket_ref path: (fqn) @variable.member)
 (ros_field_assign path: (fqn) @variable.member)
 (ros_measurement_assign path: (fqn) @variable.member)
 ; The selector on a reference is its own role: <q> is the thing, .linvel.z is
