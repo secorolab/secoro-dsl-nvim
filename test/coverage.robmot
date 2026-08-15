@@ -33,7 +33,11 @@ context (ns=app) shared {
     spec {
         length band = 0.01 m,
         angle band-rot = 0.01 rad,
-        linear-velocity creep = 0.02 m/s,
+        velocity-profile creep-profile = profile {
+            max-velocity: 0.02 m/s,
+            max-acceleration: 0.05 m/s^2,
+            shape: trapezoidal
+        },
         admittance adm = {
             force: <shared.world.ft>.force.z,
             mass: 1.0,
@@ -87,7 +91,7 @@ guarded-motion (ns=app) cover {
     }
 
     while {
-        tan:  moving <shared.world.ee> along <spec.road> at <shared.spec.creep>,
+        tan:  moving <shared.world.ee> along <spec.road> with <shared.spec.creep-profile>,
         park: keeping <shared.world.ee>.position    equal to <shared.spec.parked>.position within <shared.spec.band>,
         aim:  keeping <shared.world.ee>.orientation equal to <shared.spec.staged>.orientation within <shared.spec.band-rot>,
         span: <shared.world.ee>.position.x between <shared.spec.band> and <spec.lift>
