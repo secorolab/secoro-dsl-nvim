@@ -27,7 +27,7 @@ syntax keyword motionSpecSlot max lower upper mass damping stiffness
 syntax keyword motionSpecSlot max-velocity max-acceleration max-jerk shape
 syntax keyword motionSpecSlot start end goal center axes angles xyzw
 syntax keyword motionSpecSlot pitch revolutions amplitude anchor radius
-syntax keyword motionSpecSlot plane-normal form on-goal on-end
+syntax keyword motionSpecSlot plane-normal form on-goal
 syntax keyword motionSpecSlot of wrt ref-point as-seen-by joint ft-sensor
 syntax keyword motionSpecSlot Kp Ki Kd decay
 
@@ -60,7 +60,7 @@ syntax keyword motionSpecOperator larger smaller up away from between outside
 syntax keyword motionSpecOperator and within distance elapsed progress moving
 syntax keyword motionSpecOperator along at on in by with snapshot rotated using
 syntax keyword motionSpecOperator as via apply for realized produce detect monitor
-syntax keyword motionSpecOperator trigger hold flag publish event topic message
+syntax keyword motionSpecOperator trigger hold flag publish result event events topic message
 syntax keyword motionSpecOperator action saturation limits observes
 
 " <path> cross-references and [path] inline overrides

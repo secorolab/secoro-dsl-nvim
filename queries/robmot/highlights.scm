@@ -96,7 +96,6 @@
 "plane-normal" @label
 "form" @label
 "on-goal" @label
-"on-end" @label
 
 (geo_prop_key) @label
 (gain_name) @label
@@ -154,7 +153,9 @@
 "hold" @keyword.operator
 "flag" @keyword.operator
 "publish" @keyword.operator
+"result" @keyword.operator
 "event" @keyword.operator
+"events" @keyword.operator
 "topic" @keyword.operator
 "message" @keyword.operator
 "action" @keyword.operator
@@ -170,6 +171,7 @@
 
 "=" @operator
 "+" @operator
+"-" @operator
 
 ; ---------------------------------------------------------------------- types
 

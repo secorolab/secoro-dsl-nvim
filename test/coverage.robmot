@@ -16,6 +16,23 @@ exec-context (ns=app) cov_exec {
     timestep:   1.0 ms
 }
 
+ros (ns=app) {
+    publishers {
+        bdd-events: topic "/bdd/events" message "bdd_ros2_interfaces/msg/Event"
+    },
+    action-servers {
+        collab-bhv: action "/bdd/collab_bhv_server" type "bdd_ros2_interfaces/action/Behaviour" {
+            on-goal: produce event <cov_fsm.E_TRIGGER>
+        }
+    },
+    always {
+        publish at 10.0 Hz to <ros.publishers.bdd-events> with {
+            <cov_fsm.E_TRIGGER>: <shared.world.ee>,
+            <cov_fsm.E_DONE>: <shared.world.ee>
+        }
+    }
+}
+
 context (ns=app) shared {
     world {
         pose ee {
@@ -64,6 +81,7 @@ guarded-motion (ns=app) cover {
         spec {
             length lift = 0.2 m,
             length shifted = <shared.spec.band> + <spec.lift>,
+            length under-tip = <shared.spec.band> - <spec.lift>,
             pose here = snapshot of <shared.world.ee> on event <cov_fsm.E_TRIGGER>,
             pose built = {
                 position: (0.1, 0.2, 0.3) m,
@@ -107,8 +125,15 @@ constraint-handler (ns=app) cover-handler {
 
     monitors {
         m1: monitor <cover.until> {
-            satisfied for 0.2 s { trigger: event <cov_fsm.E_DONE> },
-            violated { hold: <cover> },
+            satisfied for 0.2 s {
+                trigger: event <cov_fsm.E_DONE>,
+                publish: to <ros.publishers.bdd-events> { result.trinary.value: TRUE } at 20.0 Hz
+            },
+            violated {
+                hold: <cover>,
+                publish: FALSE to <ros.publishers.bdd-events> at 10.0 Hz,
+                result: aborted <ros.action-servers.collab-bhv> { result.trinary.value: FALSE }
+            },
         }
     }
 

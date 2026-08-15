@@ -86,9 +86,17 @@ module.exports = grammar({
       seq(
         "publish", "at", field("rate", $.measure),
         "to", field("topic", $.ref),
-        "with", field("quantity", $.ref),
+        "with", choice(
+          field("quantity", $.ref),
+          seq("{", optList($.ros_standing_entry), "}"),
+        ),
         optional(seq("{", optList($.ros_measurement_assign), "}")),
       ),
+
+    // One row of a standing message: the scene entity it reports of and the
+    // quantity it carries; the subject falls away when the message reports one.
+    ros_standing_entry: ($) =>
+      seq(optional(seq(field("subject", $.ref), ":")), field("quantity", $.ref)),
 
     ros_measurement_assign: ($) =>
       seq(
@@ -131,12 +139,8 @@ module.exports = grammar({
         field("channel", $.string), "type", field("type", $.string),
         "{",
         "on-goal", ":", "produce", "event", field("goal_event", $.ref), optional(","),
-        optional(seq("on-end", ":", field("on_end", $._ros_result), optional(","))),
         "}",
       ),
-
-    _ros_result: ($) =>
-      choice($._ros_field_value, seq("{", optList($.ros_field_assign), "}")),
 
     ros_field_assign: ($) =>
       seq(field("path", $.fqn), ":", field("value", $._ros_field_value)),
@@ -385,13 +389,13 @@ module.exports = grammar({
       seq(
         "=",
         field("source", $.qualified_ref),
-        optional(seq("+", field("offset", $._context_ref))),
+        optional(seq(field("sign", choice("+", "-")), field("offset", $._context_ref))),
       ),
 
     snapshot_value: ($) =>
       seq(
         "=", "snapshot", "of", field("source", $._view),
-        optional(seq("+", field("offset", $._context_ref))),
+        optional(seq(field("sign", choice("+", "-")), field("offset", $._context_ref))),
         optional(seq("on", "event", field("trigger", $.ref))),
       ),
 
@@ -520,7 +524,7 @@ module.exports = grammar({
       seq(
         "moving", field("moved", $.ref),
         "along", field("path", $._context_ref),
-        "at", field("speed", $._context_ref),
+        "with", field("profile", $._context_ref),
       ),
 
     // Plain quantity view, optionally observed along a path (textX OnPath).
@@ -671,6 +675,7 @@ module.exports = grammar({
         $.hold_action,
         $.flag_action,
         $.publish_action,
+        $.result_action,
       ),
 
     trigger_action: ($) => seq("trigger", ":", "event", field("event", $.ref)),
@@ -683,10 +688,29 @@ module.exports = grammar({
       seq(
         "publish", ":",
         choice(
-          seq("event", "to", field("topic", $.ref)),
-          seq("to", field("topic", $.ref), "{", optList($.ros_field_assign), "}"),
-          seq(field("value", $._ros_field_value), "to", field("topic", $.ref)),
+          seq(
+            "events", "{", optList(field("event", $.ref)), "}",
+            "to", field("topic", $.ref),
+          ),
+          seq(
+            "to", field("topic", $.ref), "{", optList($.ros_field_assign), "}",
+            optional(seq("at", field("rate", $.measure))),
+          ),
+          seq(
+            field("value", $._ros_field_value), "to", field("topic", $.ref),
+            optional(seq("at", field("rate", $.measure))),
+          ),
         ),
+      ),
+
+    // The outcome member of a monitor: where a served goal is answered, and
+    // with what status.
+    result_action: ($) =>
+      seq(
+        "result", ":",
+        field("outcome", $.goal_status),
+        field("server", $.ref),
+        "{", optList($.ros_field_assign), "}",
       ),
 
     _controller_item: ($) => choice($.controller_entry, $.controller_alias),
