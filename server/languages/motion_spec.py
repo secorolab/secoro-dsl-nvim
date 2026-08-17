@@ -108,6 +108,7 @@ HOVER_DOCS: dict[str, str] = {
     # views and relations
     "keeping": "**keeping** `<view> <relation> [within <band>]`\n\nMarks a maintained constraint; optional sugar, the relation is what counts.",
     "distance": "**distance between** `<a>` **and** `<b>`\n\nScalar distance view between two poses.",
+    "angle": "**angle between** `<a>` **and** `<b>`\n\nAngle view between two directions.",
     "elapsed": "**elapsed**\n\nTime since the motion was entered; compare it like any scalar.",
     "progress": "**progress of** `<quantity>` **along** `<path>`\n\nRate of advance along a path.",
     "moving": "**moving** `<quantity>` **along** `<path>` **with** `<profile>`\n\nTangential path-following view.",
@@ -131,7 +132,8 @@ HOVER_DOCS: dict[str, str] = {
     "rne": "**rne**\n\nRecursive Newton-Euler solver; adds the Jdot*qd feedforward term.",
     "saturation": "**saturation** `{ max: <v> }` or `{ lower: <v>, upper: <v> }`",
     "profile": "**profile** `{ max-velocity:, max-acceleration:, [measured-velocity:], [max-jerk:], [shape: trapezoidal|s-curve] }`",
-    "admittance": "**admittance** `= { force:, mass:, damping:, stiffness:, max-velocity: }`\n\nTurns a measured force into a commanded velocity.",
+    "admittance": "**admittance** `= { force:, mass:, damping:, stiffness:, max-velocity:, [max-excursion:], [deadband:] }`\n\nTurns a measured force into a commanded velocity. `max-excursion` bounds how far the yield may travel; `deadband` is how much force counts as none.",
+    "re-tare-on": "**re-tare-on** `: { <event>, ... }`\n\nRe-takes a measured wrench's startup bias whenever one of these events fires.",
     # monitors
     "monitor": "**monitor** `<constraint|motion.until|motion.when> { satisfied [for <t>] { ... }, violated { ... } }`",
     "satisfied": "**satisfied** `[for <duration>] { ... }`\n\nActions taken while (or after sustaining) the monitored constraint holds.",
@@ -158,13 +160,13 @@ KEYWORDS = [
     "normalization", "error-normalization", "pre", "spec", "post",
     "when", "while", "until", "any", "all", "handles", "runs-in", "monitors", "controllers",
     "solvers", "path", "detect", "keeping", "equal", "to", "greater", "less", "more", "than",
-    "between", "outside", "within", "distance", "elapsed", "progress", "moving", "along", "at",
-    "on", "snapshot", "rotated", "using", "as", "via", "apply", "for", "monitor", "satisfied",
-    "violated", "trigger", "hold", "flag", "publish", "result", "pid", "impedance",
-    "feed-forward",
+    "between", "outside", "within", "distance", "angle", "elapsed", "progress", "moving", "along",
+    "at", "on", "snapshot", "rotated", "using", "as", "via", "apply", "for", "monitor",
+    "satisfied", "violated", "trigger", "hold", "flag", "publish", "result", "pid", "impedance",
+    "feed-forward", "re-tare-on",
     "saturation", "profile", "admittance", "serial-chain", "mobile-platform",
     "command-forwarding", "achd", "rne", "real-world", "simulation", "velocity-profile",
-    "lerp", "circle", "arc", "helix", "figure8", "euler", "quat", "direction-cosine"
+    "lerp", "circle", "arc", "helix", "figure8", "euler", "quat", "direction-cosine", "pi"
 ]
 # fmt: on
 
@@ -173,13 +175,13 @@ TYPES = [
     "pose", "position", "orientation", "velocity-twist", "acceleration-twist", "wrench",
     "angular-velocity", "linear-velocity", "linear-acceleration", "angular-acceleration",
     "linear-jerk", "force", "torque", "direction", "free-vector", "joint-position", "distance",
-    "angle", "dimensionless", "duration", "path-parameter", "length"
+    "angle", "dimensionless", "duration", "path-parameter", "length", "mass"
 ]
 # fmt: on
 
 # fmt: off
 UNITS = [
     "mm", "cm", "m", "rad", "deg", "m/s", "cm/s", "rad/s", "deg/s", "m/s^2", "rad/s^2",
-    "m/s^3", "N", "Nm", "s", "ms", "Hz"
+    "m/s^3", "N", "Nm", "s", "ms", "Hz", "kg", "1"
 ]
 # fmt: on

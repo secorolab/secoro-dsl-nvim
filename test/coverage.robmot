@@ -40,11 +40,12 @@ context (ns=app) shared {
         },
         wrench ft {
             of: <arm.wrist>, wrt: <arm.base>, as-seen-by: <arm.base>,
-            ft-sensor: <arm.wrist_ft>
+            ft-sensor: <arm.wrist_ft>,
+            re-tare-on: { <cov_fsm.E_TRIGGER>, <cov_fsm.E_DONE> }
         },
         joint-position elbow {
             joint: <arm.elbow_joint>,
-            normalization: (-pi, pi) rad
+            normalization: (-2 * pi, 2 * pi) rad
         }
     },
     spec {
@@ -60,8 +61,12 @@ context (ns=app) shared {
             mass: 1.0,
             damping: 20.0,
             stiffness: 0.0,
-            max-velocity: 0.1 m/s
+            max-velocity: 0.1 m/s,
+            max-excursion: 0.05 m,
+            deadband: 0.5 N
         },
+        direction dir-a = (1.0, 0.0, 0.0),
+        direction dir-b = (0.0, 1.0, 0.0),
         // A pose the deployment states: `[config.<key>]` looks into robot.toml, and `for`
         // takes the frames from the quantity it is a value for.
         pose parked = [config.poses.home] for <shared.world.ee>,
@@ -82,6 +87,8 @@ guarded-motion (ns=app) cover {
             length lift = 0.2 m,
             length shifted = <shared.spec.band> + <spec.lift>,
             length under-tip = <shared.spec.band> - <spec.lift>,
+            length scaled = (<shared.spec.band> + <spec.lift>) * 2.0 1 - <spec.lift> / 2.0 1,
+            length snap-sum = snapshot of <spec.lift> + <shared.spec.band>,
             pose here = snapshot of <shared.world.ee> on event <cov_fsm.E_TRIGGER>,
             pose built = {
                 position: (0.1, 0.2, 0.3) m,
@@ -112,7 +119,9 @@ guarded-motion (ns=app) cover {
         tan:  moving <shared.world.ee> along <spec.road> with <shared.spec.creep-profile>,
         park: keeping <shared.world.ee>.position    equal to <shared.spec.parked>.position within <shared.spec.band>,
         aim:  keeping <shared.world.ee>.orientation equal to <shared.spec.staged>.orientation within <shared.spec.band-rot>,
-        span: <shared.world.ee>.position.x between <shared.spec.band> and <spec.lift>
+        span: <shared.world.ee>.position.x between <shared.spec.band> and <spec.lift>,
+        align: keeping angle between <shared.spec.dir-a> and <shared.spec.dir-b> less than <spec.lift>,
+        summed: (<shared.spec.band> + <spec.lift>) greater than <spec.lift>
     }
 
     until any {
@@ -138,7 +147,7 @@ constraint-handler (ns=app) cover-handler {
     }
 
     controllers {
-        pid ctrl-park { constraint: <cover.park>, Kp: 200, Ki: 100, Kd: 40, decay: 0 },
+        pid ctrl-park { constraint: <cover.park>, Kp: 100 * 2, Ki: 100, Kd: 40, decay: 0 },
         impedance ctrl-tan { constraint: <cover.tan>, stiffness: 800, damping: 80 }
             apply at <arm.elbow>
     }

@@ -24,11 +24,12 @@ syntax keyword motionSpecSlot constraint measured-derivative measured-velocity
 syntax keyword motionSpecSlot output-saturation integral-saturation error-normalization
 syntax keyword motionSpecSlot normalization
 syntax keyword motionSpecSlot max lower upper mass damping stiffness
-syntax keyword motionSpecSlot max-velocity max-acceleration max-jerk shape
+syntax keyword motionSpecSlot max-velocity max-excursion deadband
+syntax keyword motionSpecSlot max-acceleration max-jerk shape
 syntax keyword motionSpecSlot start end goal center axes angles xyzw
 syntax keyword motionSpecSlot pitch revolutions amplitude anchor radius
 syntax keyword motionSpecSlot plane-normal form on-goal
-syntax keyword motionSpecSlot of wrt ref-point as-seen-by joint ft-sensor
+syntax keyword motionSpecSlot of wrt ref-point as-seen-by joint ft-sensor re-tare-on
 syntax keyword motionSpecSlot Kp Ki Kd decay
 
 " The kind of thing being declared
@@ -57,7 +58,7 @@ syntax keyword motionSpecConstant pi
 " Relation, view and action words
 syntax keyword motionSpecOperator keeping equal to greater more less than is
 syntax keyword motionSpecOperator larger smaller up away from between outside
-syntax keyword motionSpecOperator and within distance elapsed progress moving
+syntax keyword motionSpecOperator and within distance angle elapsed progress moving
 syntax keyword motionSpecOperator along at on in by with snapshot rotated using
 syntax keyword motionSpecOperator as via apply for realized produce detect monitor
 syntax keyword motionSpecOperator trigger hold flag publish result event events topic message
@@ -80,7 +81,7 @@ syntax match motionSpecDeclName /\<[A-Za-z_][A-Za-z0-9_-]*\ze\s*:/
 
 syntax match motionSpecNumber /\<[-+]\?\(\d\+\(\.\d*\)\?\|\.\d\+\)\([eE][-+]\?\d\+\)\?/
   \ nextgroup=motionSpecUnit skipwhite
-syntax match motionSpecUnit /\v(rad\/s\^2|deg\/s\^2|m\/s\^2|m\/s\^3|rad\/s|deg\/s|m\/s|cm\/s|mm|cm|m|rad|deg|Nm|N|ms|s|Hz)>/ contained
+syntax match motionSpecUnit /\v(rad\/s\^2|deg\/s\^2|m\/s\^2|m\/s\^3|rad\/s|deg\/s|m\/s|cm\/s|mm|cm|m|rad|deg|Nm|N|ms|s|Hz|kg|1)>/ contained
 
 syntax region motionSpecString start=/"/ skip=/\\./ end=/"/ oneline
 syntax match motionSpecComment /\/\/.*/ contains=@Spell

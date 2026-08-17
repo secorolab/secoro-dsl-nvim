@@ -19,7 +19,15 @@ module.exports = grammar({
 
   // `snapshot of <q> on event <e>` vs `<q> on <path>`: both continue with `on`,
   // so the choice needs the token after it.
-  conflicts: ($) => [[$.quantity_view]],
+  conflicts: ($) => [
+    [$.quantity_view],
+    // `= <measure>` alone is both a bare scalar_value and a one-leaf
+    // reference_value expression; textX tries ScalarQuantity first, so a
+    // lone measure is scalar_value.
+    [$.scalar_value, $.quantity_factor],
+    [$._context_ref, $.quantity_factor],
+    [$._coordinate_element, $.const_atom],
+  ],
 
   rules: {
     source_file: ($) =>
@@ -292,22 +300,28 @@ module.exports = grammar({
     geometric_props: ($) => list($.geo_prop_pair),
 
     geo_prop_pair: ($) =>
-      seq(field("key", $.geo_prop_key), ":", field("value", choice($.ref, $.angle_range))),
-
-    geo_prop_key: (_) =>
-      choice("of", "wrt", "ref-point", "as-seen-by", "joint", "ft-sensor", "normalization"),
-
-    // The interval an angle is read or wrapped into. A bound is a number or a
-    // multiple of pi, so a turn is written as what it is.
-    angle_range: ($) =>
       seq(
-        "(", field("lower", $._angle_bound), ",", field("upper", $._angle_bound), ")",
-        field("unit", $.unit),
+        field("key", $.geo_prop_key), ":",
+        field("value", choice($.ref, $.angle_range, $.event_ref_list)),
       ),
 
-    _angle_bound: ($) => choice($.pi_term, $.number),
+    geo_prop_key: (_) =>
+      choice(
+        "of", "wrt", "ref-point", "as-seen-by", "joint", "ft-sensor",
+        "normalization", "re-tare-on",
+      ),
 
-    pi_term: ($) => seq(optional("-"), optional(seq($.number, "*")), "pi"),
+    // Events that re-take a measured wrench's tare: the load below the sensor
+    // changes underneath the robot, so the startup bias must be retaken.
+    event_ref_list: ($) => seq("{", list(field("event", $.ref)), "}"),
+
+    // The interval an angle is read or wrapped into. A bound is a constant
+    // expression, so a turn is written as what it is (`-pi`, `2 * pi`, ...).
+    angle_range: ($) =>
+      seq(
+        "(", field("lower", $.const_expr), ",", field("upper", $.const_expr), ")",
+        field("unit", $.unit),
+      ),
 
     context_path: ($) =>
       seq("path", field("name", $.name), "=", field("value", $._path_spec)),
@@ -356,6 +370,7 @@ module.exports = grammar({
         "dimensionless",
         "duration",
         "path-parameter",
+        "mass",
       ),
 
     _quantity_type: ($) => choice($.geometry_quantity_type, $.scalar_quantity_type),
@@ -373,7 +388,7 @@ module.exports = grammar({
         $.reference_value,
       ),
 
-    scalar_value: ($) => seq("=", $.measure),
+    scalar_value: ($) => prec.dynamic(1, seq("=", $.measure)),
 
     // A pose the deployment states: `[config.<key>]` is a lookup into robot.toml, kept out of
     // `<>` because that names something declared in the model.
@@ -385,17 +400,14 @@ module.exports = grammar({
 
     vector_value: ($) => seq("=", $.coordinates, optional(field("unit", $.unit))),
 
-    reference_value: ($) =>
-      seq(
-        "=",
-        field("source", $.qualified_ref),
-        optional(seq(field("sign", choice("+", "-")), field("offset", $._context_ref))),
-      ),
+    // A plain arithmetic expression over quantities: a sum of terms, each a
+    // product/quotient of references and bare measures.
+    reference_value: ($) => seq("=", field("expr", $.quantity_expr)),
 
     snapshot_value: ($) =>
       seq(
         "=", "snapshot", "of", field("source", $._view),
-        optional(seq(field("sign", choice("+", "-")), field("offset", $._context_ref))),
+        repeat($.quantity_add_tail),
         optional(seq("on", "event", field("trigger", $.ref))),
       ),
 
@@ -473,16 +485,20 @@ module.exports = grammar({
 
     coordinates: ($) => seq("(", list($._coordinate_element), ")"),
 
-    _coordinate_element: ($) => choice($.number, $._context_ref),
+    _coordinate_element: ($) => prec.dynamic(1, choice($.const_expr, $._context_ref)),
 
     admittance_spec: ($) =>
       seq(
         "{",
         "force", ":", field("force", $._view), ",",
-        "mass", ":", field("mass", $.number), ",",
-        "damping", ":", field("damping", $.number), ",",
-        "stiffness", ":", field("stiffness", $.number), ",",
-        "max-velocity", ":", field("max_velocity", $.number), optional(field("unit", $.unit)),
+        "mass", ":", field("mass", $.const_expr), ",",
+        "damping", ":", field("damping", $.const_expr), ",",
+        "stiffness", ":", field("stiffness", $.const_expr),
+        ",", "max-velocity", ":", field("max_velocity", $.const_expr), optional(field("unit", $.unit)),
+        // How far the yield may travel from where the motion started, and how
+        // much force counts as none before it starts yielding at all.
+        optional(seq(",", "max-excursion", ":", field("max_excursion", $.const_expr), optional(field("max_excursion_unit", $.unit)))),
+        optional(seq(",", "deadband", ":", field("deadband", $.const_expr), optional(field("deadband_unit", $.unit)))),
         "}",
       ),
 
@@ -503,14 +519,19 @@ module.exports = grammar({
     _view: ($) =>
       choice(
         $.distance_view,
+        $.angle_view,
         $.elapsed_view,
         $.progress_view,
         $.moving_view,
+        $.quantity_paren,
         $.quantity_view,
       ),
 
     distance_view: ($) =>
       seq("distance", "between", field("from", $.ref), "and", field("to", $.ref)),
+
+    angle_view: ($) =>
+      seq("angle", "between", field("from", $.ref), "and", field("to", $.ref)),
 
     elapsed_view: (_) => "elapsed",
 
@@ -572,12 +593,42 @@ module.exports = grammar({
     outside_constraint: ($) =>
       seq("outside", field("lower", $._context_ref), "and", field("upper", $._context_ref)),
 
-    // References to context quantities, in the two textX ContextRef shapes.
-    _context_ref: ($) => choice($.qualified_ref, $.measure),
+    // References to context quantities, in the three textX ContextRef shapes.
+    // Preferred over an equivalent reference_value/quantity_factor parse,
+    // same as textX trying ContextRef's own shapes before falling to QExpr.
+    _context_ref: ($) => prec.dynamic(1, choice($.qualified_ref, $.measure, $.quantity_paren)),
 
     qualified_ref: ($) => seq($.ref, optional($.selector_tail)),
 
-    measure: ($) => seq(field("value", $.number), field("unit", $.unit)),
+    measure: ($) => seq(field("value", $.const_expr), field("unit", $.unit)),
+
+    // ------------------------------------------------------------ arithmetic
+
+    // Constant arithmetic over literals and pi, folded to a number by the
+    // DSL: `+ - * /`, unary minus, and parentheses.
+    const_expr: ($) => seq($.const_term, repeat(seq(field("op", choice("+", "-")), $.const_term))),
+    const_term: ($) => seq($.const_factor, repeat(seq(field("op", choice("*", "/")), $.const_factor))),
+    const_factor: ($) => seq(optional("-"), $.const_atom),
+    const_atom: ($) => choice("pi", $.unsigned_number, seq("(", $.const_expr, ")")),
+
+    // Quantity arithmetic: the same shape as const_expr, but the leaves are
+    // context/world-quantity references (with an optional selector) or bare
+    // measures, not plain numbers.
+    quantity_expr: ($) => seq($.quantity_term, repeat($.quantity_add_tail)),
+    quantity_add_tail: ($) =>
+      seq(field("op", choice("+", "-")), field("operand", $.quantity_term)),
+    quantity_term: ($) => seq($.quantity_factor, repeat(seq(field("op", choice("*", "/")), $.quantity_factor))),
+    // The sign is here for a reference or a group; a bare measure carries its
+    // own through the const_expr inside it (`-5 m`, not `- 5 m`).
+    quantity_factor: ($) =>
+      choice(
+        seq(optional("-"), choice($.quantity_paren, $.qualified_ref)),
+        $.measure,
+      ),
+
+    // A parenthesized quantity expression, used either as a whole view or as
+    // one operand of a context reference.
+    quantity_paren: ($) => seq("(", field("expr", $.quantity_expr), ")"),
 
     // ---------------------------------------------------------------- path.tx
 
@@ -750,7 +801,7 @@ module.exports = grammar({
         $.gain_param,
       ),
 
-    gain_param: ($) => seq(field("name", $.gain_name), ":", field("value", $.number)),
+    gain_param: ($) => seq(field("name", $.gain_name), ":", field("value", $.const_expr)),
 
     gain_name: (_) => choice("Kp", "Ki", "Kd", "decay", "stiffness", "damping"),
 
@@ -844,12 +895,16 @@ module.exports = grammar({
 
     number: (_) => token(/[-+]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][-+]?[0-9]+)?/),
 
+    // Sign-less, for const_atom: the sign is const_factor's, not the literal's
+    // -- otherwise "-5" is ambiguous between the two.
+    unsigned_number: (_) => token(/(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][-+]?[0-9]+)?/),
+
     unit: (_) =>
       token(
         prec(1, choice(
           "rad/s^2", "deg/s^2", "m/s^2", "m/s^3",
           "rad/s", "deg/s", "m/s", "cm/s",
-          "mm", "cm", "m", "rad", "deg", "Nm", "N", "ms", "s", "Hz",
+          "mm", "cm", "m", "rad", "deg", "Nm", "N", "ms", "s", "Hz", "kg", "1",
         )),
       ),
   },

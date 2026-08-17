@@ -78,6 +78,8 @@
 "damping" @label
 "stiffness" @label
 "max-velocity" @label
+"max-excursion" @label
+"deadband" @label
 "max-acceleration" @label
 "max-jerk" @label
 "shape" @label
@@ -130,6 +132,7 @@
 "and" @keyword.operator
 "within" @keyword.operator
 "distance" @keyword.operator
+"angle" @keyword.operator
 (elapsed_view) @keyword.operator
 "progress" @keyword.operator
 "moving" @keyword.operator
@@ -172,6 +175,8 @@
 "=" @operator
 "+" @operator
 "-" @operator
+"*" @operator
+"/" @operator
 
 ; ---------------------------------------------------------------------- types
 
@@ -208,7 +213,7 @@
 (goal_status) @constant
 (ros_field_assign value: (name) @constant)
 (publish_action value: (name) @constant)
-(pi_term) @constant
+"pi" @constant
 
 ; ------------------------------------------------------------- declared names
 
